@@ -1,0 +1,10 @@
+com\smartThings\haflete\entity\City.class
+com\smartThings\haflete\entity\Store.class
+com\smartThings\haflete\entity\enums\StoreType.class
+com\smartThings\haflete\entity\util\SuperEntity.class
+com\smartThings\haflete\entity\enums\MediaType.class
+com\smartThings\haflete\entity\Seller.class
+com\smartThings\haflete\entity\AddressInfo.class
+com\smartThings\haflete\entity\ItemMedia.class
+com\smartThings\haflete\entity\Item.class
+com\smartThings\haflete\entity\util\BusinessException.class

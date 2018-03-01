@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:p="http://primefaces.org/ui">
+	
+<ui:composition template="/WEB-INF/template/template.xhtml">
+	<ui:define name="content">
+		<o:importConstants type="com.smartThings.haflete.entity.enums.StoreType" />
+		<div class="container">
+			 
+			 <div class="registration dirController">
+				 <div class="registration_left">
+					 <h2>#{msg['existingUser']}</h2>
+					 <div class="registration_form">
+						<h:form>
+							<div>
+								<label>
+									<p:inputText value="#{loginBackBean.loginSeller.email}" id="email" placeholder="#{msg['emailPlaceHolder']}" type="email" required="true" requiredMessage="#{msg['required']}"/>
+									<p:message for="email"/>
+								</label>
+							</div>
+							<div>
+								<label>
+									<p:inputText id="pass" value="#{loginBackBean.loginSeller.password}" placeholder="#{msg['passowrdPlaceHolder']}" type="password" required="true" requiredMessage="#{msg['required']}"/>
+									<p:message for="pass"/>
+								</label>
+							</div>						
+							<div>
+								<p:commandButton value="#{msg['login']}" process="@form" update="@form" action="#{loginBackBean.login()}"/>
+							</div>
+							<div class="forget">
+								<a href="#">#{msg['forgotYourPassword']}</a>
+							</div>
+						</h:form>
+					 </div>
+				 </div>
+				 <div class="registration_left dirController">
+					 <h2>#{msg['newUser']} <span> #{msg['createAccount']} </span></h2>
+					 <div class="registration_form">
+					 	<h:form>
+					 		<div>
+								<label>
+									<p:inputText id="name" value="#{loginBackBean.seller.name}" placeholder="#{msg['name']}" validatorMessage="#{msg['commonFieldValMsg']}" type="text" required="true" requiredMessage="#{msg['required']}">
+										<f:validateLength minimum="2" maximum="40" />
+									</p:inputText>
+									<p:message for="name"/>
+								</label>
+							</div>
+							<div>
+								<label>
+									<p:inputText id="email" value="#{loginBackBean.seller.email}" placeholder="#{msg['emailPlaceHolder']}" type="password" required="true" requiredMessage="#{msg['required']}"/>
+									<p:message for="email"/>
+								</label>
+							</div>
+							<div>
+								<label>
+									<p:inputText id="mobileNum" value="#{loginBackBean.seller.mobileNum}" placeholder="#{msg['mobile']}" type="text" required="true" requiredMessage="#{msg['required']}"/>
+									<p:message for="mobileNum"/>
+								</label>
+							</div>					
+							<div>
+								<label>
+									<p:inputText id="password" value="#{loginBackBean.seller.password}" placeholder="#{msg['passowrdPlaceHolder']}" type="password" required="true" requiredMessage="#{msg['required']}"/>
+									<p:message for="password"/>
+								</label>
+							</div>						
+							<div>
+								<label>
+									<p:inputText id="confirmPass" value="#{loginBackBean.confirmPass}" placeholder="#{msg['passowrdPlaceHolderConf']}" type="password" required="true" requiredMessage="#{msg['required']}"/>
+									<p:message for="confirmPass"/>
+								</label>
+							</div>
+							<div>
+								<label>
+									<p:inputText id="storeName" value="#{loginBackBean.seller.store.name}" placeholder="#{msg['storeName']}" required="true" requiredMessage="#{msg['required']}"/>
+									<p:message for="storeName"/>
+								</label>
+							</div>
+							<div>
+								<label>
+									 <p:selectOneMenu
+											value="#{loginBackBean.seller.store.type}"
+											styleClass="form-control" id="type" required="true" requiredMessage="#{msg['required']}">
+											
+										 <f:selectItem itemLabel="#{msg['chooseStoreType']}" itemValue="#{null}" /> 
+										 <f:selectItems value="#{StoreType.values()}" var="type" 
+									            itemValue="#{type}" itemLabel="#{type.arabicName}" />
+								     </p:selectOneMenu>
+								     
+								     <p:message for="type"/>
+								</label>
+							</div>
+							<div>
+								<label>
+									 <p:selectOneMenu
+											value="#{loginBackBean.seller.store.addressInfo.city}"
+											converter="omnifaces.SelectItemsConverter"
+											styleClass="form-control" id="city" required="true" requiredMessage="#{msg['required']}">
+											
+										 <f:selectItem itemLabel="#{msg['chooseCity']}" itemValue="#{null}" /> 
+										 <f:selectItems value="#{citiesBackBean.cities}" var="city" 
+									            itemValue="#{city}" itemLabel="#{city.arabicName}" />
+								     </p:selectOneMenu>
+								     <p:message for="city"/>
+								</label>
+							</div>
+					 		<div>
+					 			<h:panelGroup id="mapCon">
+									<label>
+										<p:commandButton action="#{loginBackBean.saveCoords}" process="mapCon" update="mapCon" styleClass="hidden mapBtn" value="#{msg['saveYourLocation']}"/>
+										<h:panelGroup rendered="#{empty loginBackBean.mapCenterCoords}">
+											<div id="demo" style="color:red;cursor:pointer" onclick="getLocation()">#{msg['gmapIsRequired']}</div>
+										</h:panelGroup>
+										<p:inputText styleClass="lati hidden" id="lat" value="#{loginBackBean.seller.store.addressInfo.latitude}"/>
+										<p:inputText styleClass="long hidden" id="log" value="#{loginBackBean.seller.store.addressInfo.longitude}"/>
+										<h:panelGroup id="map">
+											<p:gmap center="#{loginBackBean.mapCenterCoords}" zoom="15" rendered="#{not empty loginBackBean.mapCenterCoords}" type="HYBRID" style="width:100%;height:200px" />
+										</h:panelGroup>
+									</label>
+								</h:panelGroup>
+							</div>
+							<div>
+								<p:commandButton value="#{msg['register']}" process="@form" update="@form" action="#{loginBackBean.save()}"/>
+							</div>
+							
+							<ui:remove>
+							
+								<div class="sky-form">
+									<label class="checkbox"><input type="checkbox" name="checkbox"/><i></i>#{msg['iAgree']} &nbsp;<a class="terms" href="#"> #{msg['termsOfService']}</a> </label>
+								</div>
+							</ui:remove>
+							
+						</h:form>
+					 </div>
+				 </div>
+				 <div class="clearfix"></div>
+			 </div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

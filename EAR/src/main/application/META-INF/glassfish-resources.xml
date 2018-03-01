@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC
+    "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN"
+    "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>     
+    <jdbc-connection-pool allow-non-component-callers="true" validation-table-name="dual"
+                          statement-cache-size="200" associate-with-thread="true" statement-timeout-in-seconds="300"
+                          non-transactional-connections="false" connection-leak-reclaim="true"
+                          lazy-connection-association="true" connection-creation-retry-attempts="12"
+                          lazy-connection-enlistment="true" validate-atmost-once-period-in-seconds="120"
+                          statement-leak-timeout-in-seconds="360"
+                          datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" res-type="javax.sql.DataSource"
+                          connection-leak-timeout-in-seconds="420" statement-leak-reclaim="true"
+                          name="hafletePool" is-connection-validation-required="true" 
+                          transaction-isolation-level="read-committed" is-isolation-level-guaranteed="true">
+ 
+		<property name="databaseName" value="haflete" />
+		<property name="user" value="root" />
+		<property name="PortNumber" value="3306" />
+		<property name="password" value="Nedal785556767" />
+		<property name="ServerName" value="localhost" />
+        <property name="URL" value="jdbc:mysql://localhost:3306/haflete"></property>
+        <property name="Url" value="jdbc:mysql://localhost:3306/haflete"></property>
+        <property name="DataSourceName" value="MysqlDataSource"></property>
+        <property name="ImplicitCachingEnabled" value="false"></property>
+        <property name="NetworkProtocol" value="tcp"></property>
+        <property name="LoginTimeout" value="0"></property>
+        <property name="ExplicitCachingEnabled" value="false"></property>
+        <property name="dynamic-reconfiguration-wait-timeout-in-seconds" value="960"></property>
+        <property name="MaxStatements" value="0"></property>
+    </jdbc-connection-pool> 
+    <jdbc-resource pool-name="hafletePool" jndi-name="java:app/jdbc/DevDS" />
+    
+</resources>

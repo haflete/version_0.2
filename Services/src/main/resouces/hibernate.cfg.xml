@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.jboss.org/dtd/hibernate/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+	<session-factory>
+
+		<!-- ============================== -->
+		<!-- Configuration Properties -->
+		<!-- ============================== -->
+		<property name="hibernate.show_sql">false</property>
+		<property name="hibernate.format_sql">false</property>
+		<property name="hibernate.use_sql_comments">false</property>
+		<property name="hibernate.order_updates">true</property>
+		<property name="hibernate.use_identifer_rollback">true</property>
+		<property name="hibernate.generate_statistics">false</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+		<!-- ============================== -->
+		<!-- JDBC and Connection Properties -->
+		<!-- ============================== -->
+		<property name="hibernate.jdbc.batch_size">30</property>
+		<property name="hibernate.jdbc.fetch_size">30</property>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.datasource">java:app/jdbc/DevDS</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">Nedal785556767</property>
+		<property name="hibernate.default_schema">haflete</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/haflete</property>
+
+		<!-- ============================== -->
+		<!-- Transaction Properties -->
+		<!-- ============================== -->
+		<property name="hibernate.transaction.factory_class">org.hibernate.transaction.CMTTransactionFactory</property>
+		<property name="hibernate.transaction.jta.platform">org.hibernate.service.jta.platform.internal.SunOneJtaPlatform</property>
+		<property name="hibernate.current_session_context_class">org.hibernate.context.internal.JTASessionContext</property>
+		<property name="hibernate.transaction.flush_before_completion">true</property>
+		<property name="hibernate.transaction.release_mode">after_transaction</property>
+		<property name="hibernate.transaction.auto_close_session">true</property>
+
+		<!-- ============================== -->
+		<!-- Miscellanious Properties -->
+		<!-- ============================== -->
+		<!-- validate: validate the schema, makes no changes to the database. update: 
+			update the schema. create: creates the schema, destroying previous data. 
+			create-drop: drop the schema at the end of the session. -->
+		<property name="hibernate.hbm2ddl.auto">update</property>
+
+		<!-- ============================== -->
+		<!-- Mapping --> 
+		<!-- ============================== -->
+		<mapping class="com.smartThings.haflete.entity.Item" />
+		<mapping class="com.smartThings.haflete.entity.ItemMedia" />
+		<mapping class="com.smartThings.haflete.entity.Seller" />
+		<mapping class="com.smartThings.haflete.entity.Store" />
+		<mapping class="com.smartThings.haflete.entity.AddressInfo" />
+		<mapping class="com.smartThings.haflete.entity.City" />
+	</session-factory>
+
+</hibernate-configuration>
