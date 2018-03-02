@@ -112,5 +112,12 @@
 			</modules>
 		</profile>
 	</profiles>
-
+	<modules>
+		<module>../DAO</module>
+		<module>../Entity</module>
+		<module>../Services</module>
+		<module>../Portal</module>
+		<module>../EAR</module>
+		<module>../RemoteServices</module>
+	</modules>
 </project>
