@@ -19,12 +19,27 @@ public class SellerEJB implements SellerRemote {
 	@Override
 	public Seller login(Seller loginSeller) throws BusinessException {
 		
+		String uuid = loginSeller.getKeepMeLoginCookie();
 		Seller seller = dao.login(loginSeller);
 		
 		if(seller == null) {
 			throw new BusinessException("WrongUsOrPass");
 		}
 		
+		loginSeller.setKeepMeLoginCookie(uuid);
+		dao.updateAddActiveTrue(seller);
+		
 		return seller;
+	}
+
+	@Override
+	public Seller loginByUuid(String value) {
+		return dao.loginByUuid(value);
+	}
+
+	@Override
+	public void checkIfExists(String value, String type) throws BusinessException {
+		if(dao.checkIfExists(value, type))
+			throw new BusinessException("isExists");
 	}
 }

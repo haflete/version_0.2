@@ -1,14 +1,11 @@
 package com.smartThings.haflete.entity;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,9 +22,6 @@ public class Seller extends SuperEntity {
 	private Long id;
 
 	@Column
-	private String name;
-	
-	@Column
 	private String email;
 	
 	@Column
@@ -43,6 +37,17 @@ public class Seller extends SuperEntity {
 	@Cascade(value = { org.hibernate.annotations.CascadeType.ALL })
 	private Store store;
 
+	@Column
+	private String keepMeLoginCookie;
+	
+	public String getKeepMeLoginCookie() {
+		return keepMeLoginCookie;
+	}
+
+	public void setKeepMeLoginCookie(String keepMeLoginCookie) {
+		this.keepMeLoginCookie = keepMeLoginCookie;
+	}
+
 	public Store getStore() {
 		return store;
 	}
@@ -50,15 +55,7 @@ public class Seller extends SuperEntity {
 	public void setStore(Store store) {
 		this.store = store;
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
+	
 	public String getEmail() {
 		return email;
 	}

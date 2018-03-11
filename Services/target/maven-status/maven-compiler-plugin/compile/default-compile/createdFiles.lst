@@ -1,4 +1,3 @@
-com\smartThings\haflete\services\local\SellerEJB.class
 com\smartThings\haflete\services\local\CityEJB.class
-com\smartThings\haflete\services\remote\CityRemote.class
 com\smartThings\haflete\services\util\StartUp.class
+com\smartThings\haflete\services\local\SellerEJB.class

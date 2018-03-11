@@ -20,8 +20,8 @@
 						<h:form>
 							<div>
 								<label>
-									<p:inputText value="#{loginBackBean.loginSeller.email}" id="email" placeholder="#{msg['emailPlaceHolder']}" type="email" required="true" requiredMessage="#{msg['required']}"/>
-									<p:message for="email"/>
+									<p:inputText value="#{loginBackBean.loginSeller.username}" id="loginUsername" placeholder="#{msg['emailPlaceHolder']}" type="email" required="true" requiredMessage="#{msg['required']}"/>
+									<p:message for="loginUsername"/>
 								</label>
 							</div>
 							<div>
@@ -45,10 +45,11 @@
 					 	<h:form>
 					 		<div>
 								<label>
-									<p:inputText id="name" value="#{loginBackBean.seller.name}" placeholder="#{msg['name']}" validatorMessage="#{msg['commonFieldValMsg']}" type="text" required="true" requiredMessage="#{msg['required']}">
+									<p:inputText id="name" value="#{loginBackBean.seller.username}" placeholder="#{msg['username']}" validatorMessage="#{msg['commonFieldValMsg']}" type="text" required="true" requiredMessage="#{msg['required']}">
 										<f:validateLength minimum="2" maximum="40" />
+										<p:ajax event="blur" process="@this" update="nameOut" listener="#{loginValidatorBackBean.validateUserName}"/>
 									</p:inputText>
-									<p:message for="name"/>
+									<p:message for="name" id="nameOut"/>
 								</label>
 							</div>
 							<div>

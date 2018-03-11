@@ -12,4 +12,8 @@ public interface SellerRemote {
 
 	Seller login(Seller loginSeller) throws BusinessException;
 
+	Seller loginByUuid(String value);
+
+	void checkIfExists(String value, String type) throws BusinessException;
+
 }

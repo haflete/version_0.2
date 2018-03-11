@@ -14,6 +14,7 @@ public abstract class SuperDAO <T extends SuperEntity> {
 	
 	public long save(T bean) throws BusinessException {
 		try {
+			bean.setActive(true);
 			HibernateUtil.getSession().save(bean);
 			HibernateUtil.getSession().flush();
 			return bean.getId();
@@ -25,6 +26,7 @@ public abstract class SuperDAO <T extends SuperEntity> {
 	public long save(List<T> bean) throws BusinessException {
 		try {
 			for (T t : bean) {
+				t.setActive(true);
 				HibernateUtil.getSession().save(t);	
 			}
 			HibernateUtil.getSession().flush();
@@ -36,9 +38,12 @@ public abstract class SuperDAO <T extends SuperEntity> {
 	}
 	public long delete(T bean) throws BusinessException {
 		try {
-			HibernateUtil.getSession().delete(bean);
-			HibernateUtil.getSession().flush();
+			bean.setActive(false);
+			update(bean);
 			return bean.getId();
+//			HibernateUtil.getSession().delete(bean);
+//			HibernateUtil.getSession().flush();
+//			return bean.getId();
 		} catch (Exception e) {
 
 			throw handleException(e);
@@ -47,16 +52,29 @@ public abstract class SuperDAO <T extends SuperEntity> {
 	public void delete(List<T> bean) throws BusinessException {
 		try {
 			for (T t : bean) {
-				HibernateUtil.getSession().delete(t);	
+				t.setActive(false);
+				
 			}
-			HibernateUtil.getSession().flush();
-			
+			update(bean);
 		} catch (Exception e) {
 
 			throw handleException(e);
 		}
 	}
-	public void update(T bean) throws BusinessException {
+	
+	public void updateAddActiveTrue(T ... bean) throws BusinessException {
+		try {
+			for (T t : bean) {
+				t.setActive(true);
+				HibernateUtil.getSession().update(t);	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw handleException(e);
+		}
+	}
+	
+	private void update(T bean) throws BusinessException {
 		try {
 			HibernateUtil.getSession().update(bean);
 		} catch (Exception e) {
@@ -64,17 +82,18 @@ public abstract class SuperDAO <T extends SuperEntity> {
 			throw handleException(e);
 		}
 	}
-	public void update(List<T> bean) throws BusinessException {
+	
+	private void update(List<T> bean) throws BusinessException {
 		try {
 			for (T t : bean) {
 				HibernateUtil.getSession().update(t);	
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw handleException(e);
 		}
 	}
+	
 	public void flush() throws BusinessException {
 		try {
 			HibernateUtil.getSession().flush();
@@ -82,7 +101,8 @@ public abstract class SuperDAO <T extends SuperEntity> {
 			throw this.handleException(e);
 		}
 	}
-	public long saveOrUpdate(T bean) throws BusinessException {
+	
+	private long saveOrUpdate(T bean) throws BusinessException {
 		try {
 			HibernateUtil.getSession().saveOrUpdate(bean);
 			HibernateUtil.getSession().flush();
@@ -97,22 +117,24 @@ public abstract class SuperDAO <T extends SuperEntity> {
 	public List<T> searchByPropertyReturnList(Class clazz, String property,
 			Object value) {
 		return ( List<T>) HibernateUtil.getSession().createCriteria(clazz)
-				.add(Restrictions.eq(property, value)).list();
+				.add(Restrictions.eq(property, value)).add(Restrictions.eq("active", true)).list();
 	}
 
 	@SuppressWarnings("unchecked")
 	public T searchByPropertyReturnUniqueResult(Class clazz, String property,
 			Object value) {
 		return (T) HibernateUtil.getSession().createCriteria(clazz)
-				.add(Restrictions.eq(property, value)).uniqueResult();
+				.add(Restrictions.eq(property, value)).add(Restrictions.eq("active", true)).uniqueResult();
 	}
 	@SuppressWarnings("unchecked")
 	public List<T> listAll(Class clazz){
-		return ( List<T>)HibernateUtil.getSession().createCriteria(clazz).list();
+		return ( List<T>)HibernateUtil.getSession().createCriteria(clazz).add(Restrictions.eq("active", true)).list();
 	}
+	
 	public void refreshEntity(T entiry){
 		HibernateUtil.getSession().refresh(entiry);
 	}
+	
 	public Number rowCount(Criteria criteria ){
 		Number count =(Number) criteria.setProjection(Projections.rowCount()).uniqueResult();
 		criteria.setProjection(null);
