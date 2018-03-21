@@ -1,6 +1,5 @@
 package com.smartThings.haflete.portal.backBean;
 
-import java.io.IOException;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
@@ -22,9 +21,9 @@ import com.smartThings.haflete.remoteServices.SellerRemote;
 @Named
 @SessionScoped
 public class LoginBackBean extends SuperBackBean {
-	
+	 
 	public static final String KEEP_LOGIN_COOKIE_NAME = "counter";
-	public static final int KEEP_LOGIN_COOKIE_AGE = 360;
+	public static final int KEEP_LOGIN_COOKIE_AGE = 60*60*24*3600; // Cookie will stay for 3600 days
 	
 	SellerRemote sellerEJB;
 	
@@ -50,14 +49,15 @@ public class LoginBackBean extends SuperBackBean {
 		
 		if(loginSeller != null) {
 			redirect("/pages/sellerHome.xhtml");
+		} else {
+			loginSeller = new Seller();
+			seller = new Seller();
+			Store store = new Store();
+			AddressInfo addressInfo = new AddressInfo();
+			store.setAddressInfo(addressInfo);
+			seller.setStore(store);
+			redirect("/pages/RegisterSeller.xhtml");
 		}
-		
-		loginSeller = new Seller();
-		seller = new Seller();
-		Store store = new Store();
-		AddressInfo addressInfo = new AddressInfo();
-		store.setAddressInfo(addressInfo);
-		seller.setStore(store);
 	}
 	
 	public String logout() {
@@ -113,10 +113,10 @@ public class LoginBackBean extends SuperBackBean {
 			}
 		} catch (BusinessException e) {
 			e.printStackTrace();
-			addErrorMessage(e.getBundleName());
+			addErrorMessage("regisForm:name",e.getBundleName());
 		}
 	}
-	
+
 	public Seller getSeller() {
 		return seller;
 	}

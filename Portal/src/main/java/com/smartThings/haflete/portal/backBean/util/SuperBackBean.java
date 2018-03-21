@@ -12,15 +12,11 @@ public abstract class SuperBackBean implements Serializable {
 	private static final String GENERAL_ERROR_MSG = "GENERAL_ERROR";
 	
 	public void addErrorMessage(String messageBundle) {
-		ResourceBundleUtil bundleUtil = new ResourceBundleUtil();
-		String message = bundleUtil.findMsg(messageBundle);
-		FacesContext.getCurrentInstance().addMessage("globalError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "حطأ", message));
+		addErrorMessage("globalError", messageBundle);
 	}
 	
 	public void addGeneralError() {
-		ResourceBundleUtil bundleUtil = new ResourceBundleUtil();
-		String message = bundleUtil.findMsg("GENERAL_ERROR");
-		FacesContext.getCurrentInstance().addMessage("globalError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "حطأ", message));
+		addErrorMessage("globalError", "GENERAL_ERROR");
 	}
 	
 	public void redirect(String url) {
@@ -30,5 +26,11 @@ public abstract class SuperBackBean implements Serializable {
 			addGeneralError();
 			e.printStackTrace();
 		}
+	}
+	
+	public void addErrorMessage(String id, String bundleName) {
+		ResourceBundleUtil bundleUtil = new ResourceBundleUtil();
+		String message = bundleUtil.findMsg(bundleName);
+		FacesContext.getCurrentInstance().addMessage(id, new FacesMessage(FacesMessage.SEVERITY_ERROR, "حطأ", message));
 	}
 }

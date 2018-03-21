@@ -14,36 +14,58 @@
 	</welcome-file-list>
 
 	<context-param>
+		<param-name>primefaces.UPLOADER</param-name>
+		<param-value>auto</param-value>
+	</context-param>
+
+	<context-param>
 		<param-name>primefaces.THEME</param-name>
 		<param-value>bootstrap</param-value>
 	</context-param>
-
-	<servlet>
-        <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.xhtml</url-pattern>
-	</servlet-mapping>
 
 	<context-param>
 		<param-name>javax.faces.WEBAPP_RESOURCES_DIRECTORY</param-name>
 		<param-value>/resources</param-value>
 	</context-param>
+	
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+	
+	<filter>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+	 	<filter-class>
+	  		org.primefaces.webapp.filter.FileUploadFilter
+	 	</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+	 	<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
+	
 	<ejb-ref>
 		<ejb-ref-name>ejb/CityEJB</ejb-ref-name>
 		<remote>com.smartThings.haflete.remoteServices.CityRemote</remote>
 		<mapped-name>corbaname:iiop:localhostIP:3700#ejb/CityEJB</mapped-name>
 	</ejb-ref>
 
-
 	<ejb-ref>
 		<ejb-ref-name>ejb/SellerEJB</ejb-ref-name>
 		<remote>com.smartThings.haflete.remoteServices.SellerRemote</remote>
 		<mapped-name>corbaname:iiop:localhostIP:3700#ejb/SellerEJB</mapped-name>
 	</ejb-ref>
+	
+	<ejb-ref>
+		<ejb-ref-name>ejb/MediaEJB</ejb-ref-name>
+		<remote>com.smartThings.haflete.remoteServices.MediaRemote</remote>
+		<mapped-name>corbaname:iiop:localhostIP:3700#ejb/MediaEJB</mapped-name>
+	</ejb-ref>
+	
 </web-app>

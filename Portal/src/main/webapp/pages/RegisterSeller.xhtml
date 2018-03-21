@@ -17,7 +17,7 @@
 				 <div class="registration_left">
 					 <h2>#{msg['existingUser']}</h2>
 					 <div class="registration_form">
-						<h:form>
+						<h:form id="loginForm">
 							<div>
 								<label>
 									<p:inputText value="#{loginBackBean.loginSeller.username}" id="loginUsername" placeholder="#{msg['emailPlaceHolder']}" type="email" required="true" requiredMessage="#{msg['required']}"/>
@@ -31,7 +31,7 @@
 								</label>
 							</div>						
 							<div>
-								<p:commandButton value="#{msg['login']}" process="@form" update="@form" action="#{loginBackBean.login()}"/>
+								<p:commandButton value="#{msg['login']}" action="#{loginBackBean.login()}"/>
 							</div>
 							<div class="forget">
 								<a href="#">#{msg['forgotYourPassword']}</a>
@@ -42,14 +42,14 @@
 				 <div class="registration_left dirController">
 					 <h2>#{msg['newUser']} <span> #{msg['createAccount']} </span></h2>
 					 <div class="registration_form">
-					 	<h:form>
+					 	<h:form id="regisForm">
 					 		<div>
 								<label>
 									<p:inputText id="name" value="#{loginBackBean.seller.username}" placeholder="#{msg['username']}" validatorMessage="#{msg['commonFieldValMsg']}" type="text" required="true" requiredMessage="#{msg['required']}">
 										<f:validateLength minimum="2" maximum="40" />
-										<p:ajax event="blur" process="@this" update="nameOut" listener="#{loginValidatorBackBean.validateUserName}"/>
+										<p:ajax event="blur" process="@this" update="nameOut" listener="#{loginBackBean.validateUserName}"/>
 									</p:inputText>
-									<p:message for="name" id="nameOut"/>
+									<p:message for="name" id="nameOut" />
 								</label>
 							</div>
 							<div>

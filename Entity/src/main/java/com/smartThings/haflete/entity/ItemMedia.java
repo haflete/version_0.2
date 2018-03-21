@@ -1,5 +1,6 @@
 package com.smartThings.haflete.entity;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.smartThings.haflete.entity.enums.MediaType;
 import com.smartThings.haflete.entity.util.SuperEntity;
@@ -41,6 +43,18 @@ public class ItemMedia extends SuperEntity {
 	@Column
 	private int size;
 	
+	@Transient
+	private byte[] contents;
+	
+	
+	public byte[] getContents() {
+		return contents;
+	}
+
+	public void setContents(byte[] contents) {
+		this.contents = contents;
+	}
+
 	public Item getItem() {
 		return item;
 	}

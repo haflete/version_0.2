@@ -26,7 +26,7 @@ public class SellerEJB implements SellerRemote {
 			throw new BusinessException("WrongUsOrPass");
 		}
 		
-		loginSeller.setKeepMeLoginCookie(uuid);
+		seller.setKeepMeLoginCookie(uuid);
 		dao.updateAddActiveTrue(seller);
 		
 		return seller;

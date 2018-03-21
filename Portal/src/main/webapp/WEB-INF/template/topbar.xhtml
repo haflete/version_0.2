@@ -42,16 +42,18 @@
 						<li><a href="login.html">Track Order</a></li>
 					</ul> -->
 					</div>
-					<div class="top_left">
-						<ul>
-							<h:panelGroup rendered="#{not loginBackBean.loggedIn}">
-								<li class="top_link"><a href="/pages/RegisterSeller.xhtml" class="simpleCart_empty">#{msg['sellersPart']}</a></li>
-							</h:panelGroup>
-							<h:panelGroup rendered="#{loginBackBean.loggedIn}">
-								<li class="top_link"><h:commandLink styleClass="simpleCart_empty">#{msg['logout']}</h:commandLink></li>
-							</h:panelGroup>
-						</ul>
-					</div>
+					<h:form>
+						<div class="top_left">
+							<ul>
+								<h:panelGroup rendered="#{not loginBackBean.loggedIn}">
+									<li class="top_link"><a href="/pages/RegisterSeller.xhtml" class="simpleCart_empty">#{msg['sellersPart']}</a></li>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{loginBackBean.loggedIn}">
+									<li class="top_link"><h:commandLink styleClass="simpleCart_empty">#{msg['logout']}</h:commandLink></li>
+								</h:panelGroup>
+							</ul>
+						</div>
+					</h:form>
 					<div class="clearfix"></div>
 				</div>
 			</div>

@@ -143,7 +143,7 @@ public abstract class SuperDAO <T extends SuperEntity> {
 	}
 
 	public BusinessException handleException(Exception e) throws BusinessException {
-		throw new BusinessException("General Exception");
+		throw new BusinessException("GENERAL_ERROR");
 	}
 
 	protected boolean notNullOrEmpty(String data) {

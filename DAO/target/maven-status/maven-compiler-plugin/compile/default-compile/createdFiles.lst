@@ -1,4 +1,5 @@
 com\smartThings\haflete\dao\util\HibernateUtil.class
 com\smartThings\haflete\dao\CityDAO.class
 com\smartThings\haflete\dao\util\SuperDAO.class
+com\smartThings\haflete\dao\MediaDAO.class
 com\smartThings\haflete\dao\SellerDAO.class

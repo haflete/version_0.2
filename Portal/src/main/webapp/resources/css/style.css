@@ -10,6 +10,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 .dirController {
 	direction: rtl;
 }
+.label {
+	font-size: 15px;
+	color:black !important;
+}
+.value {
+	width:200px;
+}
+.value textarea, input {
+	width:200px;
+}
+.wizardCon {
+	max-height: 300px;
+}
+.addPostDiv {
+	background: #ccc;
+    width: 250px;
+    height: 250px;
+    text-align: center;
+    background-image: url(/javax.faces.resource/images/plusIcon.png.xhtml);
+    background-repeat: no-repeat;
+    background-position: center;
+}
 body{
 	background:#fff;
 	font-family: 'Lato', sans-serif;
