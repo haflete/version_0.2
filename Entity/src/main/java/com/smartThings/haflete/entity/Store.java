@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Where;
 
 import com.smartThings.haflete.entity.enums.StoreType;
 import com.smartThings.haflete.entity.util.SuperEntity;
@@ -39,6 +40,7 @@ public class Store extends SuperEntity {
 
 	@OneToMany(mappedBy="store", fetch=FetchType.LAZY)
 	@Cascade(value = { org.hibernate.annotations.CascadeType.ALL })
+	@Where(clause="active=TRUE")
 	private List<Item> items;
 	
 	@OneToOne(mappedBy="store", fetch=FetchType.LAZY)

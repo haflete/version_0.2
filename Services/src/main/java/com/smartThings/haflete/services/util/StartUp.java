@@ -12,7 +12,6 @@ import com.smartThings.haflete.dao.util.HibernateUtil;
 @Startup
 public class StartUp {
 	
-	public static final String PATH_SPLITOR = "\\\\";
 	public static final String ROOT_PATH = File.listRoots()[0].getAbsolutePath() + "\\7aflete\\\\medias";
 	@PostConstruct
 	public void ini() { 

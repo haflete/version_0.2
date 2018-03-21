@@ -68,4 +68,9 @@
 		<mapped-name>corbaname:iiop:localhostIP:3700#ejb/MediaEJB</mapped-name>
 	</ejb-ref>
 	
+	<ejb-ref>
+		<ejb-ref-name>ejb/ItemEJB</ejb-ref-name>
+		<remote>com.smartThings.haflete.remoteServices.ItemRemote</remote>
+		<mapped-name>corbaname:iiop:localhostIP:3700#ejb/ItemEJB</mapped-name>
+	</ejb-ref>
 </web-app>

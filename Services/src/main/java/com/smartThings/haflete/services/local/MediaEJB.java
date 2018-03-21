@@ -1,5 +1,6 @@
 package com.smartThings.haflete.services.local;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -27,7 +28,7 @@ public class MediaEJB implements MediaRemote {
 			throw new BusinessException("fileShouldntBeEmpty");
 		
 		String fullPath = createMediaPath(media, loginSeller);
-		int endIndex = fullPath.lastIndexOf("\\\\");
+		int endIndex = fullPath.lastIndexOf(File.separator);
 	    String dirPath = fullPath.substring(0, endIndex);
 	    
 		media.setUrl(fullPath);
@@ -58,7 +59,7 @@ public class MediaEJB implements MediaRemote {
 	}
 	
 	private String createMediaPath(ItemMedia media, Seller loginSeller) {
-		return StartUp.ROOT_PATH + StartUp.PATH_SPLITOR + loginSeller.getUsername() + StartUp.PATH_SPLITOR + media.getItem().getName()
-				 + StartUp.PATH_SPLITOR + media.getName();
+		return StartUp.ROOT_PATH + File.separator + loginSeller.getUsername() + File.separator + media.getItem().getName()
+				 + File.separator + media.getName();
 	}
 }

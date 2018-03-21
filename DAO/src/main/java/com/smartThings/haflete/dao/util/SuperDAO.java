@@ -102,7 +102,7 @@ public abstract class SuperDAO <T extends SuperEntity> {
 		}
 	}
 	
-	private long saveOrUpdate(T bean) throws BusinessException {
+	public long saveOrUpdate(T bean) throws BusinessException {
 		try {
 			HibernateUtil.getSession().saveOrUpdate(bean);
 			HibernateUtil.getSession().flush();

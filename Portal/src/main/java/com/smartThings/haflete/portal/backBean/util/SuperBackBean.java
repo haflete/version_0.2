@@ -19,6 +19,12 @@ public abstract class SuperBackBean implements Serializable {
 		addErrorMessage("globalError", "GENERAL_ERROR");
 	}
 	
+	public void addSuccMsg() {
+		ResourceBundleUtil bundleUtil = new ResourceBundleUtil();
+		String message = bundleUtil.findMsg("operationSuccess");
+		FacesContext.getCurrentInstance().addMessage("globalError", new FacesMessage(FacesMessage.SEVERITY_INFO, "حطأ", message));
+	}
+	
 	public void redirect(String url) {
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect(url);

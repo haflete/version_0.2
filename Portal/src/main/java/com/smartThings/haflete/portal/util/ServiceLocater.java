@@ -7,6 +7,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import com.smartThings.haflete.remoteServices.CityRemote;
+import com.smartThings.haflete.remoteServices.ItemRemote;
 import com.smartThings.haflete.remoteServices.MediaRemote;
 import com.smartThings.haflete.remoteServices.SellerRemote;
 
@@ -18,9 +19,19 @@ public class ServiceLocater implements Serializable{
 	private SellerRemote sellerRemote;
 	private CityRemote cityRemote;
 	private MediaRemote mediaRemote;
-	
+	private ItemRemote itemRemote;
 	private static final String PREFIX = "java:comp/env/ejb/";
 	 
+	public ItemRemote getItemRemote() {
+		try {
+			itemRemote = (ItemRemote) (new InitialContext()).lookup(PREFIX + "ItemEJB");
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return itemRemote;
+	}
+	
 	public SellerRemote getSellerRemote() {
 		try {
 			sellerRemote = (SellerRemote) (new InitialContext()).lookup(PREFIX + "SellerEJB");

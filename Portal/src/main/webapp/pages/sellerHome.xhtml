@@ -10,15 +10,10 @@
 	<ui:composition template="/WEB-INF/template/template.xhtml">
 		<ui:define name="content">
 			<div class="container">
-				<p:commandLink>
+				<p:commandLink action="addPost.xhtml">
 					<p:graphicImage library="images" name="upload.png" onclick="PF('addPostDlg').show();"/>
 				</p:commandLink>
 				
-				<p:dialog header="#{msg['addPost']}" height="600" onShow="PF('addPostDlg').initPosition()"
-						  widgetVar="addPostDlg" dynamic="true">
-				
-				   <ui:include src="innerPages/addPost.xhtml"/>
-				</p:dialog>
 			</div>
 		</ui:define>
 	</ui:composition>

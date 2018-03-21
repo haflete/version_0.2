@@ -13,15 +13,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Where;
 
 import com.smartThings.haflete.entity.util.SuperEntity;
 
 @Entity
 @Table(name = "Item")
 public class Item extends SuperEntity {
+
+	private static final long serialVersionUID = -2496205149132478360L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -42,11 +46,26 @@ public class Item extends SuperEntity {
 	
 	@OneToMany(mappedBy="item", fetch=FetchType.LAZY)
 	@Cascade(value = { org.hibernate.annotations.CascadeType.ALL })
+	@Where(clause="active=TRUE")
 	private List<ItemMedia> mediaList;
+	
+	@OneToOne
+	@JoinColumn(name="CHOOSEN_IMAGE")
+	@Cascade(value = { org.hibernate.annotations.CascadeType.ALL })
+	@Where(clause="active=TRUE")
+	private ItemMedia choosenImage;
 	
 	public Item() {
 		super();
 		mediaList = new ArrayList<>();
+	}
+	
+	public ItemMedia getChoosenImage() {
+		return choosenImage;
+	}
+
+	public void setChoosenImage(ItemMedia choosenImage) {
+		this.choosenImage = choosenImage;
 	}
 
 	public String getDescription() {

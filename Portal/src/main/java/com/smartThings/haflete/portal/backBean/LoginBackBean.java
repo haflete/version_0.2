@@ -22,6 +22,7 @@ import com.smartThings.haflete.remoteServices.SellerRemote;
 @SessionScoped
 public class LoginBackBean extends SuperBackBean {
 	 
+	private static final long serialVersionUID = -7205727353525356127L;
 	public static final String KEEP_LOGIN_COOKIE_NAME = "counter";
 	public static final int KEEP_LOGIN_COOKIE_AGE = 60*60*24*3600; // Cookie will stay for 3600 days
 	
@@ -91,6 +92,7 @@ public class LoginBackBean extends SuperBackBean {
 				throw new BusinessException("confirmPass");
 			
 			sellerEJB.save(seller);
+			addSuccMsg();
 		} catch (BusinessException e) {
 			e.printStackTrace();
 			addErrorMessage(e.getBundleName());
