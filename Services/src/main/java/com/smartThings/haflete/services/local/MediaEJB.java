@@ -1,11 +1,16 @@
 package com.smartThings.haflete.services.local;
 
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import javax.ejb.Stateless;
+import javax.imageio.ImageIO;
 
 import com.smartThings.haflete.dao.ItemDAO;
 import com.smartThings.haflete.entity.Item;
@@ -18,6 +23,8 @@ import com.smartThings.haflete.services.util.StartUp;
 @Stateless(mappedName="ejb/MediaEJB", name="MediaEJB")
 public class MediaEJB implements MediaRemote {
 
+    private static final int THUMBNAIL_WIDTH = 150;
+    
 	@Override
 	public ItemMedia createNewImage(ItemMedia media, Seller loginSeller) throws BusinessException {
 		
@@ -38,6 +45,7 @@ public class MediaEJB implements MediaRemote {
 				Files.createDirectories(Paths.get(dirPath));
 			}
 			Files.write(Paths.get(fullPath), media.getContents());
+			createThumbnail(fullPath, media.getName());
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new BusinessException("GENERAL_ERROR");
@@ -51,6 +59,38 @@ public class MediaEJB implements MediaRemote {
 		return media;
 	}
 	
+	private void createThumbnail(String fullPath, String imageName) throws IOException {
+		BufferedImage originalBufferedImage = null;
+		originalBufferedImage = ImageIO.read(new File(fullPath));
+	    
+	    int widthToScale, heightToScale;
+	    if (originalBufferedImage.getWidth() > originalBufferedImage.getHeight()) {
+	     
+	        heightToScale = (int)(1.1 * THUMBNAIL_WIDTH);
+	        widthToScale = (int)((heightToScale * 1.0) / originalBufferedImage.getHeight() 
+	                        * originalBufferedImage.getWidth());
+	     
+	    } else {
+	        widthToScale = (int)(1.1 * THUMBNAIL_WIDTH);
+	        heightToScale = (int)((widthToScale * 1.0) / originalBufferedImage.getWidth() 
+	                        * originalBufferedImage.getHeight());
+	    }
+	    
+	    BufferedImage resizedImage = new BufferedImage(widthToScale, 
+	    	    heightToScale, originalBufferedImage.getType());
+    	Graphics2D g = resizedImage.createGraphics();
+    	 
+    	g.setComposite(AlphaComposite.Src);
+    	g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+    	g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+    	g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    	 
+    	g.drawImage(originalBufferedImage, 0, 0, widthToScale, heightToScale, null);
+    	g.dispose();
+	    ImageIO.write(resizedImage, "JPG", new File(imageName + "_thumb"));
+
+	}
+
 	private boolean nullOrEmpty(String ... values) {
 		for(String value : values)
 			if(value == null || value.isEmpty())

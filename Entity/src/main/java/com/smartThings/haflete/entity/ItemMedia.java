@@ -29,6 +29,9 @@ public class ItemMedia extends SuperEntity {
 
 	@Column
 	private String url;
+
+	@Column
+	private String thumbUrl;
 	
 	@Enumerated(EnumType.STRING)
 	private MediaType type;
@@ -46,7 +49,14 @@ public class ItemMedia extends SuperEntity {
 	@Transient
 	private byte[] contents;
 	
-	
+	public String getThumbUrl() {
+		return thumbUrl;
+	}
+
+	public void setThumbUrl(String thumbUrl) {
+		this.thumbUrl = thumbUrl;
+	}
+
 	public byte[] getContents() {
 		return contents;
 	}

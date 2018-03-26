@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import javax.ejb.Stateless;
+
 import com.smartThings.haflete.dao.ItemDAO;
 import com.smartThings.haflete.entity.Item;
 import com.smartThings.haflete.entity.ItemMedia;
 import com.smartThings.haflete.entity.util.BusinessException;
 import com.smartThings.haflete.remoteServices.ItemRemote;
 
+@Stateless(mappedName="ejb/ItemEJB", name="ItemEJB")
 public class ItemEJB implements ItemRemote {
 	
 	@Override

@@ -16,13 +16,13 @@ public abstract class SuperBackBean implements Serializable {
 	}
 	
 	public void addGeneralError() {
-		addErrorMessage("globalError", "GENERAL_ERROR");
+		addErrorMessage("globalError", GENERAL_ERROR_MSG);
 	}
 	
 	public void addSuccMsg() {
 		ResourceBundleUtil bundleUtil = new ResourceBundleUtil();
 		String message = bundleUtil.findMsg("operationSuccess");
-		FacesContext.getCurrentInstance().addMessage("globalError", new FacesMessage(FacesMessage.SEVERITY_INFO, "حطأ", message));
+		FacesContext.getCurrentInstance().addMessage("globalError", new FacesMessage(FacesMessage.SEVERITY_INFO, "", message));
 	}
 	
 	public void redirect(String url) {

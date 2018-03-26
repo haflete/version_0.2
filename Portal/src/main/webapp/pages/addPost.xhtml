@@ -50,13 +50,27 @@
 					</p:tab>
 					<p:tab id="chooseImage" title="#{msg['chooseImage']}">
 						
-						<h:panelGrid columns="3" rendered="#{not newPostBackBean.choosedImage}">
+						<p:dataGrid  var="image" value="#{newPostBackBean.item.mediaList}" columns="3" layout="grid" 
+							rendered="#{not newPostBackBean.choosedImage}">
+								<f:facet name="header">
+						            #{msg['chooseFrontImg']}
+						        </f:facet>
+						        
+						        <p:panel header="#{image.name}" style="text-align:center">
+						            <h:panelGrid columns="1" style="width:100%">
+						                <p:commandLink update="chooseImage" title="#{msg['chooseImage']}">
+						                    <f:setPropertyActionListener value="#{image}" target="#{newPostBackBean.choosenImage}" />
+						                </p:commandLink>
+						            </h:panelGrid>
+						        </p:panel>
+						</p:dataGrid>
 						
-						</h:panelGrid>
 						<h:panelGrid columns="2" rendered="#{newPostBackBean.choosedImage}">
-					        <p:imageCropper value="#{newPostBackBean.croppedImage}" image="#{newPostBackBean.choosenImage.url}" initialCoords="0,0,250,250"/>
+					        <p:imageCropper minSize="100,100" maxSize="450,450" aspectRatio="1" value="#{newPostBackBean.croppedImage}" 
+					        				image="#{newPostBackBean.choosenImage.url}" initialCoords="0,0,250,250"/>
+					        				
 					        <h:panelGroup id="cropped">
-					            <p:graphicImage rendered="#{not empty newPostBackBean.newImageUrl}" name="newPostBackBean.newImageUrl" />
+					            <p:graphicImage rendered="#{not empty newPostBackBean.item.choosenImage.url}" name="#{newPostBackBean.item.choosenImage.url}" />
 					        </h:panelGroup>
 					    </h:panelGrid>
 					 

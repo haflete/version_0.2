@@ -10,10 +10,9 @@
 	<ui:composition template="/WEB-INF/template/template.xhtml">
 		<ui:define name="content">
 			<div class="container">
-				<p:commandLink action="addPost.xhtml">
-					<p:graphicImage library="images" name="upload.png" onclick="PF('addPostDlg').show();"/>
+				<p:commandLink action="addPost.xhtml?faces-redirect=true">
+					<p:graphicImage library="images" name="upload.png"/>
 				</p:commandLink>
-				
 			</div>
 		</ui:define>
 	</ui:composition>

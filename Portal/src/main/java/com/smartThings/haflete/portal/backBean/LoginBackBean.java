@@ -42,23 +42,28 @@ public class LoginBackBean extends SuperBackBean {
 	
 	@PostConstruct
 	public void init() {
+		loginSeller = new Seller();
+		seller = new Seller();
+		Store store = new Store();
+		AddressInfo addressInfo = new AddressInfo();
+		store.setAddressInfo(addressInfo);
+		seller.setStore(store);
+		
 		Cookie uuidCookie = cookieHelper.getCookie(KEEP_LOGIN_COOKIE_NAME);
 		sellerEJB = serviceLocater.getSellerRemote();
 		if(uuidCookie != null && uuidCookie.getValue() != null) {
 			loginSeller = sellerEJB.loginByUuid(uuidCookie.getValue());
 		}
 		
-		if(loginSeller != null) {
-			redirect("/pages/sellerHome.xhtml");
-		} else {
-			loginSeller = new Seller();
-			seller = new Seller();
-			Store store = new Store();
-			AddressInfo addressInfo = new AddressInfo();
-			store.setAddressInfo(addressInfo);
-			seller.setStore(store);
-			redirect("/pages/RegisterSeller.xhtml");
+		if(loginSeller == null) {
+			redirect("/pages/RegisterSeller.xhtml?faces-redirect=true");
 		}
+	}
+	
+	public void preRender() {
+		if(loginSeller != null) {
+			redirect("/pages/sellerHome.xhtml?faces-redirect=true");
+		} 
 	}
 	
 	public String logout() {
@@ -76,7 +81,7 @@ public class LoginBackBean extends SuperBackBean {
 			loginSeller = sellerEJB.login(loginSeller);
 			isLoggedIn = true;
 			
-			redirect("/pages/sellerHome.xhtml");
+			redirect("/pages/sellerHome.xhtml?faces-redirect=true");
 		} catch (BusinessException e) {
 			e.printStackTrace();
 			addErrorMessage(e.getBundleName());
