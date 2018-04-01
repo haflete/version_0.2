@@ -40,7 +40,6 @@ public class Store extends SuperEntity {
 
 	@OneToMany(mappedBy="store", fetch=FetchType.LAZY)
 	@Cascade(value = { org.hibernate.annotations.CascadeType.ALL })
-	@Where(clause="active=TRUE")
 	private List<Item> items;
 	
 	@OneToOne(mappedBy="store", fetch=FetchType.LAZY)

@@ -6,83 +6,134 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
-<h:head>
-</h:head>
-	<h:body>
-		<div class="wizardCon">
-			<h:form enctype="multipart/form-data">
-				<p:growl id="growl" sticky="true" showDetail="true" />
-				<p:wizard flowListener="#{newPostBackBean.onFlowProcess}" style="direction:rtl" nextLabel="#{msg['next']}" backLabel="#{msg['back']}"
-				id="addPostWizrd">
-					<p:tab id="info" title="#{msg['addPost']}">
-						<p:panel header="#{msg['info']}">
-							<p:messages autoUpdate="true"/>
-							<h:panelGrid columns="1" columnClasses="label, value">
-								<h:outputText value="#{msg['itemName']}" />
-								<p:inputText value="#{newPostBackBean.item.name}" required="true" id="itemName"
-									label="#{msg['itemName']}" requiredMessage="#{msg['required']}">
-									<p:ajax event="blur" process="@this" update="@this"/>
+
+	<ui:composition template="/WEB-INF/template/template.xhtml">
+		<ui:define name="content">
+			<f:event listener="#{loginBackBean.preRenderSellerPages}" type="preRenderView" />
+			<h:outputStylesheet library="css" name="croppie.css"/>
+			<div class="container">
+	
+				<div class="wizardCon">
+					<h:form enctype="multipart/form-data">
+						<p:growl id="growl" sticky="true" showDetail="true" />
+						<p:wizard flowListener="#{newPostBackBean.onFlowProcess}" style="direction:rtl" nextLabel="#{msg['next']}" backLabel="#{msg['back']}"
+						id="addPostWizrd">
+							<p:tab id="info" title="#{msg['addPost']}">
+								<p:panel header="#{msg['info']}">
+									<p:messages autoUpdate="true"/>
+									<h:panelGrid columns="1" columnClasses="label, value">
+										<h:outputText value="#{msg['itemName']}" />
+										<p:inputText value="#{newPostBackBean.item.name}" required="true" id="itemName"
+											label="#{msg['itemName']}" requiredMessage="#{msg['required']}">
+											<p:ajax event="blur" process="@this" update="@this"/>
+											
+											<f:validateLength minimum="2" maximum="255"/>
+										</p:inputText>
+										
+										<h:outputText value="#{msg['price']}" />
+										<p:inputText value="#{newPostBackBean.item.price}" required="true" id="priceInput" converterMessage="#{msg['numberRequired']}"
+											requiredMessage="#{msg['required']}" label="#{msg['price']}" validatorMessage="#{msg['numberRequired']}">
+											
+											<p:ajax event="blur" process="@this" update="@this"/>
+											<f:validateDoubleRange minimum="1" for="priceInput" />
+											<f:validateLength minimum="1" maximum="19"/>
+										</p:inputText>
+										
+										<h:outputText value="#{msg['desc']}" id="itemDesc"/>
+										<p:inputTextarea value="#{newPostBackBean.item.description}">
+											<p:ajax event="blur" process="@this" update="@this"/>
+										</p:inputTextarea>
+									</h:panelGrid>
+								</p:panel>
+							</p:tab>
+							<p:tab id="images" title="#{msg['images']}">
+								<p:dataGrid  var="image" value="#{newPostBackBean.item.mediaList}" columns="3" layout="grid" id="imagesGrid"
+									emptyMessage="#{msg['emptyResult']}">
+									<f:facet name="header">
+							            #{msg['uploadedImgsClickToDelete']}
+							        </f:facet>
 									
-									<f:validateLength minimum="2" maximum="255"/>
-								</p:inputText>
+									<p:panel header="#{image.name}" style="text-align:center">
+							            <h:panelGrid columns="1" style="width:100%">
+							                <p:commandLink title="#{msg['deleteImage']}" actionListener="#{newPostBackBean.deleteImage(image)}" update="imagesGrid">
+							                	<p:graphicImage url="#{image.url}" width="300px"/>
+										        <p:confirm header="#{msg['confirmHeader']}" message="#{msg['confirm']}" icon="ui-icon-alert" />
+										    </p:commandLink>
+										 
+										    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+										        <p:commandButton value="#{msg['Yes']}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+										        <p:commandButton value="#{msg['No']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+										    </p:confirmDialog>
+							            </h:panelGrid>
+							        </p:panel>
+								</p:dataGrid> 
 								
-								<h:outputText value="#{msg['price']}" />
-								<p:inputText value="#{newPostBackBean.item.price}" required="true" id="priceInput" converterMessage="#{msg['numberRequired']}"
-									requiredMessage="#{msg['required']}" label="#{msg['price']}" validatorMessage="#{msg['numberRequired']}">
-									
-									<p:ajax event="blur" process="@this" update="@this"/>
-									<f:validateDoubleRange minimum="1" for="priceInput" />
-									<f:validateLength minimum="1" maximum="19"/>
-								</p:inputText>
+								<p:spacer />
+								<p:spacer />
 								
-								<h:outputText value="#{msg['desc']}" id="itemDesc"/>
-								<p:inputTextarea value="#{newPostBackBean.item.description}">
-									<p:ajax event="blur" process="@this" update="@this"/>
-								</p:inputTextarea>
-							</h:panelGrid>
-						</p:panel>
-					</p:tab>
-					<p:tab id="images" title="#{msg['images']}">
-						<p:fileUpload fileUploadListener="#{newPostBackBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
-	                          update="messages" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" auto="true" multiple="true" />
-	 					
-	    				<p:growl id="messages" showDetail="true" />
-					</p:tab>
-					<p:tab id="chooseImage" title="#{msg['chooseImage']}">
-						
-						<p:dataGrid  var="image" value="#{newPostBackBean.item.mediaList}" columns="3" layout="grid" 
-							rendered="#{not newPostBackBean.choosedImage}">
-								<f:facet name="header">
-						            #{msg['chooseFrontImg']}
-						        </f:facet>
-						        
-						        <p:panel header="#{image.name}" style="text-align:center">
-						            <h:panelGrid columns="1" style="width:100%">
-						                <p:commandLink update="chooseImage" title="#{msg['chooseImage']}">
-						                    <f:setPropertyActionListener value="#{image}" target="#{newPostBackBean.choosenImage}" />
-						                </p:commandLink>
-						            </h:panelGrid>
-						        </p:panel>
-						</p:dataGrid>
-						
-						<h:panelGrid columns="2" rendered="#{newPostBackBean.choosedImage}">
-					        <p:imageCropper minSize="100,100" maxSize="450,450" aspectRatio="1" value="#{newPostBackBean.croppedImage}" 
-					        				image="#{newPostBackBean.choosenImage.url}" initialCoords="0,0,250,250"/>
-					        				
-					        <h:panelGroup id="cropped">
-					            <p:graphicImage rendered="#{not empty newPostBackBean.item.choosenImage.url}" name="#{newPostBackBean.item.choosenImage.url}" />
-					        </h:panelGroup>
-					    </h:panelGrid>
-					 
-					    <p:commandButton value="Crop" action="#{newPostBackBean.crop}" update="cropped msgs" icon="ui-icon-scissors"/>
-					    
-					    
-					</p:tab>
-					<p:tab id="videos" title="#{msg['videos']}">
-					
-					</p:tab>
-				</p:wizard>
-			</h:form>
-		</div>
-	</h:body>
+								<p:fileUpload fileUploadListener="#{newPostBackBean.handleFileUpload}" mode="advanced" dragDropSupport="true" uploadLabel="#{msg['uploadBtn']}"
+									  label="#{msg['uploadBtn']}" update="@parent:@parent" sizeLimit="500000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" auto="true" multiple="true"
+			                          fileLimitMessage="#{msg['fileSizeLimit']}" required="true" invalidFileMessage="#{msg['invalidFile']}" invalidSizeMessage="#{msg['fileSizeLimit']}"/>
+			 					
+			    				<p:growl id="messages" showDetail="true" />
+							</p:tab>
+							<p:tab id="chooseImage" title="#{msg['chooseImage']}">
+								<p:dataGrid  var="image" value="#{newPostBackBean.item.imagesList}" columns="3" layout="grid" 
+									rendered="#{empty newPostBackBean.choosenImage}">
+										<f:facet name="header">
+								            #{msg['chooseFrontImg']}
+								        </f:facet>
+								        
+								        <p:panel header="#{image.name}" style="text-align:center">
+								            <h:panelGrid columns="1" style="width:100%">
+								                <p:commandLink update="@form" title="#{msg['chooseImage']}">
+								                	<p:graphicImage url="#{image.url}" width="300px"/>
+								                    <f:setPropertyActionListener value="#{image}" target="#{newPostBackBean.choosenImage}" />
+								                </p:commandLink>
+								            </h:panelGrid>
+								        </p:panel>
+								</p:dataGrid>
+								
+								<h:panelGroup rendered="#{not empty newPostBackBean.choosenImage}"> 
+									<div class="crop-container">
+										<h:inputText styleClass="hidden base64" value="#{newPostBackBean.croppedBase64}" id="base64"/>
+								    	<h:inputText styleClass="hidden imgSrc" value="#{newPostBackBean.choosenImage.thumbUrl}"/>
+								    	
+								    	<div id="demo-basic"></div>
+								    	
+								    	<p:commandButton value="#{msg['crop']}" icon="ui-icon-scissors" onclick="crop(); return false;"/>
+								    	<p:commandButton process="base64" styleClass="cropperBtn hidden" oncomplete="$('.cropActionBtn').click();"/>
+								    	<p:commandButton styleClass="cropActionBtn hidden" action="#{newPostBackBean.crop}" />
+								    	<script>
+											initCropper();
+										</script>
+									</div>
+								</h:panelGroup>
+								
+							</p:tab>
+							<p:tab id="videos" title="#{msg['videos']}">
+								<p:dataGrid var="video" value="#{newPostBackBean.item.videosList}" columns="3" layout="grid" 
+									rendered="#{empty newPostBackBean.item.videosList}">
+										<f:facet name="header">
+								            #{msg['uploadedVideos']}
+								        </f:facet>
+								        
+								        <p:panel header="#{video.name}" style="text-align:center">
+								            <h:panelGrid columns="1" style="width:100%">
+								                
+								            </h:panelGrid>
+								        </p:panel>
+								</p:dataGrid>
+								
+								<p:fileUpload fileUploadListener="#{newPostBackBean.handleVideoUpload}" mode="advanced" dragDropSupport="true" uploadLabel="#{msg['uploadBtn']}"
+									  label="#{msg['uploadBtn']}" update="@parent:@parent" auto="true" multiple="true"
+									  sizeLimit="500000" allowTypes="/(\.|\/)(webm|mkv|flv|vob|ogv|ogg|drc|avi|mov|qt|wmv|rm|rmvb|amv|mp4|m4p|m4v|mpg|mp2|mpeg|mpe|mpv|mpg|mpeg|svi|m4v|3gp|3g2|nsv)$/"
+			                          fileLimitMessage="#{msg['fileSizeLimit']}" required="true" invalidFileMessage="#{msg['invalidFile']}" invalidSizeMessage="#{msg['fileSizeLimit']}"/>
+							</p:tab>
+						</p:wizard>
+					</h:form>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
 </html>

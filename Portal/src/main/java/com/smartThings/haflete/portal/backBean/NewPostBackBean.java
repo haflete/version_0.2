@@ -1,15 +1,16 @@
 package com.smartThings.haflete.portal.backBean;
 
-import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
-import org.primefaces.model.CroppedImage;
 import org.primefaces.model.UploadedFile;
 
 import com.smartThings.haflete.entity.Item;
@@ -30,9 +31,8 @@ public class NewPostBackBean extends SuperBackBean {
 	private Item item;
 	private MediaRemote mediaEJB;
 	private ItemMedia choosenImage;
-	private boolean choosedImage;
-	private CroppedImage croppedImage;
 	private ItemRemote itemEJB;
+	private String croppedBase64;
 	
 	@Inject
 	ServiceLocater serviceLocater;
@@ -49,58 +49,74 @@ public class NewPostBackBean extends SuperBackBean {
 	}
 	
 	public void crop() {
-        if(croppedImage == null) {
-            return;
-        }
-        
-        int endIndex = choosenImage.getUrl().lastIndexOf(File.separator);
-	    String dirPath = choosenImage.getUrl().substring(0, endIndex);
-	    
-        String newImageUrl = dirPath + File.separator + "croped_" + choosenImage.getName();
-        
-        ItemMedia frontImage = new ItemMedia();
-        frontImage.setName("croped_" + choosenImage.getName());
-        frontImage.setType(MediaType.IMAGE);
-        frontImage.setSize(croppedImage.getBytes().length);
-        frontImage.setContents(croppedImage.getBytes());
-        frontImage.setUrl(newImageUrl);
-        item.setChoosenImage(frontImage);
+		String encodedImg = croppedBase64.split(",")[1];
+		byte[] data = Base64.getDecoder().decode(encodedImg.getBytes(StandardCharsets.UTF_8));
+		
         try {
-			item = itemEJB.createFrontImg(item);
+			item = itemEJB.createFrontImg(loginBackBean.getLoginSeller(), item, data);
 			addSuccMsg();
+			RequestContext requestContext = RequestContext.getCurrentInstance();  
+			requestContext.execute("$('.ui-button-icon-left').click()");
 		} catch (BusinessException e) {
 			addErrorMessage(e.getMessage());
 			e.printStackTrace();
 		}
     }
 	
-	public void handleFileUpload(FileUploadEvent event) {
-		ItemMedia media = new ItemMedia();
-		UploadedFile file = event.getFile();
-		media.setExt(file.getContentType());
-		media.setItem(item);
-		media.setName(file.getFileName());
-		media.setType(MediaType.IMAGE);
-		media.setContents(file.getContents());
-		media.setSize(file.getContents().length);
+	public void deleteImage(ItemMedia image) {
 		try {
-			media = mediaEJB.createNewImage(media, loginBackBean.getLoginSeller());
+			item.removeItemMedia(image);
+			item = itemEJB.createOrUpdate(item);
 			addSuccMsg();
 		} catch (BusinessException e) {
-			addErrorMessage(e.getMessage());
+			addGeneralError();
 			e.printStackTrace();
 		}
+	}
+ 
+	public void handleFileUpload(FileUploadEvent event) {
+		synchronized (this) {
+			ItemMedia media = new ItemMedia();
+			UploadedFile file = event.getFile();
+			media.setExt(file.getContentType());
+			media.setItem(item);
+			media.setName(file.getFileName());
+			media.setType(MediaType.IMAGE);
+			media.setContents(file.getContents());
+			media.setSize(file.getContents().length);
+			try {
+				media = mediaEJB.createNewImage(media, loginBackBean.getLoginSeller());
+				item = media.getItem();
+				addSuccMsg();
+			} catch (BusinessException e) {
+				addErrorMessage(e.getMessage());
+				e.printStackTrace();
+			}
+		}
     }
-	 
-	public boolean isChoosedImage() {
-		return choosedImage;
-	}
+	
+	public void handleVideoUpload(FileUploadEvent event) {
+		synchronized (this) {
+			ItemMedia media = new ItemMedia();
+			UploadedFile file = event.getFile();
+			media.setExt(file.getContentType());
+			media.setItem(item);
+			media.setName(file.getFileName());
+			media.setType(MediaType.VIDEO);
+			media.setContents(file.getContents());
+			media.setSize(file.getContents().length);
+			try {
+				media = mediaEJB.createNewVideo(media, loginBackBean.getLoginSeller());
+				item = media.getItem();
+				addSuccMsg();
+			} catch (BusinessException e) {
+				addErrorMessage(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+    }
 
-	public void setChoosedImage(boolean choosedImage) {
-		this.choosedImage = choosedImage;
-	}
-
-	public String onFlowProcess(FlowEvent event) {
+	public String onFlowProcess(FlowEvent event) throws BusinessException {
         return event.getNewStep();
     }
 	
@@ -128,11 +144,11 @@ public class NewPostBackBean extends SuperBackBean {
 		this.choosenImage = choosenImage;
 	}
 
-	public CroppedImage getCroppedImage() {
-		return croppedImage;
+	public String getCroppedBase64() {
+		return croppedBase64;
 	}
 
-	public void setCroppedImage(CroppedImage croppedImage) {
-		this.croppedImage = croppedImage;
+	public void setCroppedBase64(String croppedBase64) {
+		this.croppedBase64 = croppedBase64;
 	}
 }

@@ -42,27 +42,34 @@ public class LoginBackBean extends SuperBackBean {
 	
 	@PostConstruct
 	public void init() {
-		loginSeller = new Seller();
 		seller = new Seller();
 		Store store = new Store();
 		AddressInfo addressInfo = new AddressInfo();
-		store.setAddressInfo(addressInfo);
+		store.setAddressInfo(addressInfo); 
 		seller.setStore(store);
-		
+		 
 		Cookie uuidCookie = cookieHelper.getCookie(KEEP_LOGIN_COOKIE_NAME);
 		sellerEJB = serviceLocater.getSellerRemote();
 		if(uuidCookie != null && uuidCookie.getValue() != null) {
+			isLoggedIn = true;
 			loginSeller = sellerEJB.loginByUuid(uuidCookie.getValue());
-		}
-		
-		if(loginSeller == null) {
-			redirect("/pages/RegisterSeller.xhtml?faces-redirect=true");
 		}
 	}
 	
-	public void preRender() {
-		if(loginSeller != null) {
+	public void preRenderSellerRegistPage() {
+		if(loginSeller == null) {
+			isLoggedIn = false;
+			loginSeller = new Seller();
+		}
+		
+		if(isLoggedIn) {
 			redirect("/pages/sellerHome.xhtml?faces-redirect=true");
+		} 
+	} 
+	
+	public void preRenderSellerPages() {
+		if(!isLoggedIn || loginSeller == null) {
+			redirect("/pages/RegisterSeller.xhtml?faces-redirect=true");
 		} 
 	}
 	
@@ -79,7 +86,7 @@ public class LoginBackBean extends SuperBackBean {
 			loginSeller.setKeepMeLoginCookie(uuid);
 			cookieHelper.setCookie(KEEP_LOGIN_COOKIE_NAME, uuid, KEEP_LOGIN_COOKIE_AGE);
 			loginSeller = sellerEJB.login(loginSeller);
-			isLoggedIn = true;
+			isLoggedIn = true; 
 			
 			redirect("/pages/sellerHome.xhtml?faces-redirect=true");
 		} catch (BusinessException e) {

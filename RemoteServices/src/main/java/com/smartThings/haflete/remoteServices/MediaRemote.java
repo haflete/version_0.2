@@ -10,4 +10,8 @@ import com.smartThings.haflete.entity.util.BusinessException;
 public interface MediaRemote {
 
 	ItemMedia createNewImage(ItemMedia media, Seller loginSeller) throws BusinessException;
+
+	void deleteImage(long id) throws BusinessException;
+
+	ItemMedia createNewVideo(ItemMedia media, Seller loginSeller) throws BusinessException;
 }

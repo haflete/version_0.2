@@ -1,13 +1,50 @@
 $(document).ready(function() {
 	$(".memenu").memenu();
-	
+
 	if(!$(".lati").val() || $(".long").val())
 		getLocation();
 });
 
+var basic;
+function initCropper() {
+	$(document).ready(function() {
+		
+		if(basic)
+			basic.destroy();
+		
+		var imgSrc = $('.imgSrc').val();
+		
+		basic = $('#demo-basic').croppie({
+		    viewport: {
+		        width: 300,
+		        height: 300
+		    }
+		});
+		basic.croppie('bind', {
+		    url: imgSrc,
+		    points: [0,0,300,300]
+		});
+		
+	});
+}
+
+function crop() {
+	
+	basic.croppie('result', 'base64').then(function(html) {
+	    $(".base64").attr('value', html);
+	});
+	$(".base64").ready(function() {
+		setTimeout(function() {
+			$(".base64").ready(function() {
+				$(".cropperBtn").click();
+			});
+		}, 2500);
+	})
+}
+
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
+    	navigator.geolocation.getCurrentPosition(showPosition,showError);
     } else { 
     	alert("please register using your mobile");
     }

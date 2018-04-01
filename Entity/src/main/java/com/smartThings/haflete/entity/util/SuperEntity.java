@@ -17,8 +17,7 @@ public abstract class SuperEntity implements Serializable {
 	@UpdateTimestamp
 	private Calendar lastUpdateDate;
 	
-	@Column
-	private Boolean active;
+	public SuperEntity() {}
 	
 	public abstract Long getId();
 
@@ -31,12 +30,32 @@ public abstract class SuperEntity implements Serializable {
 	public void setLastUpdateDate(Calendar lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
 	}
+	
 
-	public Boolean getActive() {
-		return active;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		return result;
 	}
 
-	public void setActive(Boolean active) {
-		this.active = active;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SuperEntity other = (SuperEntity) obj;
+		if (getId() == null) {
+			if (other.getId() != null)
+				return false;
+		} else if (!getId().equals(other.getId()))
+			return false;
+		return true;
 	}
+	
+	
 }

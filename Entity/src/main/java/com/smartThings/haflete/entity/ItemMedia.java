@@ -29,9 +29,15 @@ public class ItemMedia extends SuperEntity {
 
 	@Column
 	private String url;
-
+	
+	@Column
+	private String fullDir;
+	
 	@Column
 	private String thumbUrl;
+	
+	@Column
+	private String thumbFullDir;
 	
 	@Enumerated(EnumType.STRING)
 	private MediaType type;
@@ -49,6 +55,22 @@ public class ItemMedia extends SuperEntity {
 	@Transient
 	private byte[] contents;
 	
+	public String getFullDir() {
+		return fullDir;
+	}
+
+	public void setFullDir(String fullDir) {
+		this.fullDir = fullDir;
+	}
+
+	public String getThumbFullDir() {
+		return thumbFullDir;
+	}
+
+	public void setThumbFullDir(String thumbFullDir) {
+		this.thumbFullDir = thumbFullDir;
+	}
+
 	public String getThumbUrl() {
 		return thumbUrl;
 	}

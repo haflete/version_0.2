@@ -27,7 +27,7 @@ public class SellerEJB implements SellerRemote {
 		}
 		
 		seller.setKeepMeLoginCookie(uuid);
-		dao.updateAddActiveTrue(seller);
+		dao.update(seller);
 		
 		return seller;
 	}

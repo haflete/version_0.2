@@ -1,5 +1,6 @@
 package com.smartThings.haflete.services.local;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,40 +9,53 @@ import javax.ejb.Stateless;
 
 import com.smartThings.haflete.dao.ItemDAO;
 import com.smartThings.haflete.entity.Item;
-import com.smartThings.haflete.entity.ItemMedia;
+import com.smartThings.haflete.entity.Seller;
 import com.smartThings.haflete.entity.util.BusinessException;
 import com.smartThings.haflete.remoteServices.ItemRemote;
+import com.smartThings.haflete.services.util.StartUp;
 
 @Stateless(mappedName="ejb/ItemEJB", name="ItemEJB")
 public class ItemEJB implements ItemRemote {
+	ItemDAO dao = new ItemDAO();
 	
+
 	@Override
-	public Item createFrontImg(Item item) throws BusinessException {
-		ItemMedia media = item.getChoosenImage();
+	public Item createFrontImg(Seller loginSeller, Item item, byte[] data) throws BusinessException {
 		
-		if(nullOrEmpty(media.getExt(),media.getName()))
+		if(data == null || data.length < 10)
 			throw new BusinessException("fileNameCantBeNull");
 		
-		if(media.getContents().length < 10)
-			throw new BusinessException("fileShouldntBeEmpty");
+		String dir = createPathForCroppedImg(loginSeller, item);
 		
 		try {
-			Files.write(Paths.get(media.getUrl()), media.getContents());
+			Files.write(Paths.get(dir), data);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new BusinessException("GENERAL_ERROR");
 		}
-        
-		ItemDAO dao = new ItemDAO();
+        item.setFrontImgUrl(findUrlFromDir(dir));
 		dao.saveOrUpdate(item);
 		
         return item;
 	}
 	
-	private boolean nullOrEmpty(String ... values) {
-		for(String value : values)
-			if(value == null || value.isEmpty())
-				return true;
-		return false;
+	private String createPathForCroppedImg(Seller loginSeller, Item item) {
+		return StartUp.ROOT_PATH + File.separator + loginSeller.getUsername() + File.separator + item.getName() + 
+				File.separator + item.getName() + ".jpg";
+	}
+	@Override
+	public Item bringById(Long id) throws BusinessException {
+		ItemDAO dao = new ItemDAO();
+		return dao.bringById(Item.class, id);
+	}
+
+	@Override
+	public Item createOrUpdate(Item item) throws BusinessException {
+		dao.saveOrUpdate(item);
+		return item;
+	}
+	
+	private String findUrlFromDir(String dirPath) {
+		return (File.separator + "media" + dirPath.replace(StartUp.ROOT_PATH, "")).replace("\\", "/");
 	}
 }

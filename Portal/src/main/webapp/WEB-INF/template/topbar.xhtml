@@ -20,15 +20,17 @@
 	 	addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
 	
 		</script>
+		
 		<h:outputScript library="js" name="simpleCart.min.js" target="body" />
 		<h:outputScript library="js" name="memenu.js" target="body" />
 		<h:outputScript library="js" name="jquery.flexisel.js" target="body" />
 		<h:outputScript library="js" name="js.js" target="body" />
+		<h:outputScript library="js" name="croppie.min.js" target="body"/>
 	</h:head>
 	<h:body>
 		
 		<h:form>
-			<p:growl id="globalError" autoUpdate="true" redisplay="true" showSummary="true" showDetail="true" sticky="true" life="3000" />
+			<p:growl id="globalError" autoUpdate="true" redisplay="true" showSummary="true" showDetail="true" sticky="true" life="1" />
 		</h:form>
 		
 		<p:inputText style="display:none"></p:inputText>

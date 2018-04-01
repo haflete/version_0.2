@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Where;
 
+import com.smartThings.haflete.entity.enums.MediaType;
 import com.smartThings.haflete.entity.util.SuperEntity;
 
 @Entity
@@ -44,28 +45,24 @@ public class Item extends SuperEntity {
 	@JoinColumn(name = "STORE_ID")
 	private Store store;
 	
-	@OneToMany(mappedBy="item", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="item", fetch=FetchType.EAGER)
 	@Cascade(value = { org.hibernate.annotations.CascadeType.ALL })
-	@Where(clause="active=TRUE")
 	private List<ItemMedia> mediaList;
 	
-	@OneToOne
-	@JoinColumn(name="CHOOSEN_IMAGE")
-	@Cascade(value = { org.hibernate.annotations.CascadeType.ALL })
-	@Where(clause="active=TRUE")
-	private ItemMedia choosenImage;
+	@Column
+	private String frontImgUrl;
 	
 	public Item() {
 		super();
 		mediaList = new ArrayList<>();
 	}
-	
-	public ItemMedia getChoosenImage() {
-		return choosenImage;
+
+	public String getFrontImgUrl() {
+		return frontImgUrl;
 	}
 
-	public void setChoosenImage(ItemMedia choosenImage) {
-		this.choosenImage = choosenImage;
+	public void setFrontImgUrl(String frontImgUrl) {
+		this.frontImgUrl = frontImgUrl;
 	}
 
 	public String getDescription() {
@@ -114,5 +111,27 @@ public class Item extends SuperEntity {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public void removeItemMedia(ItemMedia image) {
+		mediaList.remove(image);
+	}
+	
+	public List<ItemMedia> getImagesList() {
+		List<ItemMedia> imgs = new ArrayList<>();
+		for(ItemMedia media : mediaList)
+			if(MediaType.IMAGE.equals(media.getType()))
+				imgs.add(media);
+		
+		return imgs;
+	}
+	
+	public List<ItemMedia> getVideosList() {
+		List<ItemMedia> videos = new ArrayList<>();
+		for(ItemMedia media : mediaList)
+			if(MediaType.VIDEO.equals(media.getType()))
+				videos.add(media);
+		
+		return videos;
 	}
 }
