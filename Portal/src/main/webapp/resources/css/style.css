@@ -99,10 +99,13 @@ h1.b1,h2.b2,h3.b3 {
 }
 /*----*/
 .top_bg{
-  background:#00a0dc;
+	background:#d7e3fe;
+}
+.showhide {
+	background:#d7e3fe !important;
 }
 .header_top-sec{
-  padding: 15px 0;
+  padding: 5px 0;
 }
 .logo img{
 	width:100%;
@@ -162,13 +165,14 @@ h1.b1,h2.b2,h3.b3 {
 }
 .top_left ul li a{
 	text-align:center;
-	padding: 0px 4px;
-	font-size:13px;
+	padding: 0px;
+	font-size:24px;
 	color:#ffffff;
 	-webkit-transition: all 0.3s ease-in-out;
 	-moz-transition: all 0.3s ease-in-out;
 	-o-transition: all 0.3s ease-in-out;
 	transition: all 0.3s ease-in-out;
+	font-weight: bolder;
 }
 .top_right ul li a:hover,.top_left ul li a:hover{
 	color:#333;

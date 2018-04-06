@@ -154,7 +154,7 @@ public class NewPostBackBean extends SuperBackBean {
 		if(uploadVideoUrl.contains("watch?v="))
 			uploadVideoUrl = uploadVideoUrl.replace("watch?v=", "embed/");
 		media.setUrl(uploadVideoUrl);
-		media.setExt("Video/URL");
+		media.setExt("video/URL");
 		media.setThumbUrl(mediaEJB.findThumbVideoUrl());
 		item.getMediaList().add(media);
 		try {
