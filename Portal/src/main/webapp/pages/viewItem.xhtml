@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/WEB-INF/template/template.xhtml">
+		<ui:define name="content">
+			<div class="viewItemCon">
+				<div class="viewItemHeader">
+					<h:outputText value="#{viewItemBackBean.item.name}"/>
+				</div>
+				
+				<p:separator />
+				
+				<h:form id="form">
+					<div>
+						<p:ring id="basic" value="#{viewItemBackBean.item.mediaList}" var="media" styleClass="ring">
+					        <p:outputPanel>
+					        	<p:panelGrid  columns="1">
+							        <p:graphicImage url="#{media.thumbUrl}" width="100px"/>
+							        
+							        <p:commandButton update=":form:dialogCon" icon="ui-icon-search" oncomplete="PF('dialog').show();">
+							        	<f:setPropertyActionListener value="#{media}" target="#{viewItemBackBean.selectedMedia}" />
+							        </p:commandButton>
+						        </p:panelGrid>
+					        </p:outputPanel>
+					    </p:ring>
+					</div>
+					
+					<p:dialog header="#{viewItemBackBean.selectedMedia.name}" widgetVar="dialog" modal="true" showEffect="fade" 
+						hideEffect="fade" resizable="false" width="100%" height="500px" id="dialogCon" closable="true" closeOnEscape="true" draggable="true" 
+						fitViewport="true">
+						
+						<p:outputPanel rendered="#{viewItemBackBean.selectedMedia.ext.contains('Video')}" style="text-align: center;" layout="block">
+				            <h:panelGroup rendered="#{viewItemBackBean.selectedMedia.uploadedMethod eq UploadedMethod.URL}">
+			                	<div><iframe src="#{viewItemBackBean.selectedMedia.url}" height="300" width="300" /></div>
+			                </h:panelGroup>
+			                <h:panelGroup rendered="#{viewItemBackBean.selectedMedia.uploadedMethod ne UploadedMethod.URL}">
+				                <video id="my-video" class="video-js" controls="true" preload="auto" width="600"
+							  		poster="#{viewItemBackBean.selectedMedia.thumbUrl}" data-setup="{}">
+								    <source src="#{viewItemBackBean.selectedMedia.url}" type='#{viewItemBackBean.selectedMedia.ext}'/>
+								    <p class="vjs-no-js">
+								      To view this video please enable JavaScript, and consider upgrading to a web browser that
+								      <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+								    </p>
+							  	</video>
+						  	</h:panelGroup>
+				        </p:outputPanel>
+				        
+				        <p:outputPanel rendered="#{viewItemBackBean.selectedMedia.ext.contains('image')}" style="text-align: center;" layout="block">
+				        	<p:graphicImage url="#{viewItemBackBean.selectedMedia.url}" width="400"/>
+				        </p:outputPanel>
+		        	</p:dialog>
+	        	</h:form>
+        	</div>
+        	<br />
+        	<br />
+        	<br />
+        	<br />
+        	<br />
+        	<br />
+        	<br />
+        	<br />
+        	<div class="viewItemHeader itemDetails" align="center">
+				<table border="1" cellpadding="10" cellspacing="10" width="100%">
+					<tr>
+						<td>
+							<h:outputText value="#{msg['Name']}"/>
+						</td>
+						<td>
+							<h:outputText value="#{viewItemBackBean.item.name}"/>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<h:outputText value="#{msg['price']}"/>
+						</td>
+						<td>
+							<h:outputFormat value="#{msg['priceJD']}">
+							   <f:param value="#{viewItemBackBean.item.price}" />
+							</h:outputFormat>
+						</td>
+					</tr>
+					
+					
+					<tr>
+						<td>
+							<h:outputText value="#{msg['desc']}"/>
+						</td>
+						<td>
+							<h:outputText value="#{viewItemBackBean.item.description}"/>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<h:outputText value="#{msg['sellerName']}"/>
+						</td>
+						<td>
+							<h:outputText value="#{viewItemBackBean.item.store.name}"/>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<h:outputText value="#{msg['city']}"/>
+						</td>
+						<td>
+							<h:outputText value="#{viewItemBackBean.item.store.addressInfo.city.arabicName}"/>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<h:outputText value="#{msg['openTime']}"/>
+						</td>
+						<td>
+							<h:outputText value="#{viewItemBackBean.item.store.openTime}">
+								<f:convertDateTime pattern="HH:mm" />
+							</h:outputText>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<h:outputText value="#{msg['closeTime']}"/>
+						</td>
+						<td>
+							<h:outputText value="#{viewItemBackBean.item.store.closeTime}">
+								<f:convertDateTime pattern="HH:mm" />
+							</h:outputText>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<br />
+			<br />
+			<br />
+			<br />
+			
+			<div class="viewItemHeader itemDetails">
+				<p:gmap id="gmap" center="#{viewItemBackBean.mapCoords}" zoom="15" rendered="#{not empty viewItemBackBean.mapCoords}" type="HYBRID" 
+					model="#{viewItemBackBean.simpleModel}"  style="width:100%;height:400px">
+			        <p:ajax event="overlaySelect" listener="#{viewItemBackBean.onMarkerSelect}"/>
+			    </p:gmap>
+			</div>
+			
+			<br />
+			<br />
+			<br />
+			<br />
+		</ui:define>
+	</ui:composition>
+</html>
