@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.Stateless;
 
 import com.smartThings.haflete.dao.ItemDAO;
 import com.smartThings.haflete.entity.Item;
 import com.smartThings.haflete.entity.Seller;
+import com.smartThings.haflete.entity.searchBeans.ItemSearchCriteria;
 import com.smartThings.haflete.entity.util.BusinessException;
 import com.smartThings.haflete.remoteServices.ItemRemote;
 import com.smartThings.haflete.services.util.StartUp;
@@ -37,6 +40,23 @@ public class ItemEJB implements ItemRemote {
 		dao.saveOrUpdate(item);
 		
         return item;
+	}
+
+	@Override
+	public List<Item> findItems(ItemSearchCriteria searchCriteria, Seller loginSeller) throws BusinessException {
+		
+		if(loginSeller == null || loginSeller.getStore() == null || loginSeller.getStore().getId() == 0) {
+			throw new BusinessException("relogin");
+		}
+		
+		List<Item> items = dao.findItems(searchCriteria,  loginSeller.getStore().getId());
+		return items == null ? new ArrayList<>() : items;
+	}
+	
+	@Override
+	public List<Item> findItems(ItemSearchCriteria searchCriteria) throws BusinessException {
+		List<Item> items = dao.findItems(searchCriteria);
+		return items == null ? new ArrayList<>() : items;
 	}
 	
 	private String createPathForCroppedImg(Seller loginSeller, Item item) {

@@ -2,10 +2,12 @@ package com.smartThings.haflete.portal.backBean;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.primefaces.context.RequestContext;
@@ -16,6 +18,7 @@ import org.primefaces.model.UploadedFile;
 import com.smartThings.haflete.entity.Item;
 import com.smartThings.haflete.entity.ItemMedia;
 import com.smartThings.haflete.entity.enums.MediaType;
+import com.smartThings.haflete.entity.enums.UploadedMethod;
 import com.smartThings.haflete.entity.util.BusinessException;
 import com.smartThings.haflete.portal.backBean.util.SuperBackBean;
 import com.smartThings.haflete.portal.util.ServiceLocater;
@@ -33,6 +36,7 @@ public class NewPostBackBean extends SuperBackBean {
 	private ItemMedia choosenImage;
 	private ItemRemote itemEJB;
 	private String croppedBase64;
+	private String uploadVideoUrl;
 	
 	@Inject
 	ServiceLocater serviceLocater;
@@ -42,10 +46,35 @@ public class NewPostBackBean extends SuperBackBean {
 	
 	@PostConstruct
 	public void init() {
-		item = new Item();
-		mediaEJB = serviceLocater.getMediaRemote();
 		itemEJB = serviceLocater.getItemRemote();
+		
+		Map<String,String> dataMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		
+		String id = dataMap.get("id");
+		if(id == null) {
+			item = new Item();
+			item.setStore(loginBackBean.getLoginSeller().getStore());
+		} else {
+			try {
+				item = itemEJB.bringById(Long.valueOf(id));
+			} catch (NumberFormatException | BusinessException e) {
+				addGeneralError();
+				e.printStackTrace();
+			}
+		}
+		
+		mediaEJB = serviceLocater.getMediaRemote();
 		item.setStore(loginBackBean.getLoginSeller().getStore());
+	}
+	
+	public void finish() {
+		try {
+			item = itemEJB.createOrUpdate(item);
+		} catch (BusinessException e) {
+			addErrorMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		redirect("sellerHome.xhtml?faces-redirect=true&page=home");
 	}
 	
 	public void crop() {
@@ -99,10 +128,11 @@ public class NewPostBackBean extends SuperBackBean {
 		synchronized (this) {
 			ItemMedia media = new ItemMedia();
 			UploadedFile file = event.getFile();
-			media.setExt(file.getContentType());
+			media.setExt("video/" + file.getFileName().substring(file.getFileName().lastIndexOf(".") + 1));
 			media.setItem(item);
 			media.setName(file.getFileName());
 			media.setType(MediaType.VIDEO);
+			media.setUploadedMethod(UploadedMethod.CONTENTS);
 			media.setContents(file.getContents());
 			media.setSize(file.getContents().length);
 			try {
@@ -115,6 +145,26 @@ public class NewPostBackBean extends SuperBackBean {
 			}
 		}
     }
+	
+	public String uploadVideoViaUrl() {
+		ItemMedia media = new ItemMedia();
+		media.setItem(item);
+		media.setType(MediaType.VIDEO);
+		media.setUploadedMethod(UploadedMethod.URL);
+		if(uploadVideoUrl.contains("watch?v="))
+			uploadVideoUrl = uploadVideoUrl.replace("watch?v=", "embed/");
+		media.setUrl(uploadVideoUrl);
+		media.setExt("Video/URL");
+		media.setThumbUrl(mediaEJB.findThumbVideoUrl());
+		item.getMediaList().add(media);
+		try {
+			item = itemEJB.createOrUpdate(item);
+		} catch (BusinessException e) {
+			addErrorMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		return "";
+	}
 
 	public String onFlowProcess(FlowEvent event) throws BusinessException {
         return event.getNewStep();
@@ -150,5 +200,13 @@ public class NewPostBackBean extends SuperBackBean {
 
 	public void setCroppedBase64(String croppedBase64) {
 		this.croppedBase64 = croppedBase64;
+	}
+
+	public String getUploadVideoUrl() {
+		return uploadVideoUrl;
+	}
+
+	public void setUploadVideoUrl(String uploadVideoUrl) {
+		this.uploadVideoUrl = uploadVideoUrl;
 	}
 }

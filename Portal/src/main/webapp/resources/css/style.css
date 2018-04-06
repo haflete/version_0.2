@@ -7,13 +7,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 .crop-container {
 	width: 335px;
     min-height: 300px;
-    background: #ccc;
+    background: #eee;
     padding-right: 2%;
     padding-top: 4%;
     text-align: center;
 }
+.logo {
+	width: 15%;
+}
+#layout-portlets-cover {
+    min-height: 550px;
+}
+.top-nav {
+	float: left
+}
+.ui-datascroller .ui-datascroller-item {
+    width: 31%;
+    display: inline-block;
+    margin-left: 21px;
+    margin-top: 10px;
+}
 .ui-wizard {
-    background: #ccc;
+    background: #eee;
     text-align: center;
 }
 .cr-boundary {
@@ -39,7 +54,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 }
 
 .addPostDiv {
-	background: #ccc;
+	background: #eee;
     width: 250px;
     height: 250px;
     text-align: center;
@@ -239,10 +254,27 @@ h1.b1,h2.b2,h3.b3 {
 }
 .top-nav{
   margin-top: 0;
-  width:63%;
+  width: 80%;
+  margin-left: 5%;
   margin: 1% auto 0;
   display: block;
   float: left;
+}
+.itemsCon .ui-panel-footer {
+	background: #eee;
+	text-align: center;
+	font-weight: bold;
+	font-size: 16px;
+}
+.itemDetails {
+	width: 80%;
+    margin: auto;
+    direction: rtl;
+}
+.pagesContainer {
+	background-image: url("#{resource['images/background_5.jpg']}");
+	background-repeat: no-repeat;
+    background-position: left;
 }
 .skyblue{
 	float:left;
@@ -508,6 +540,18 @@ span.disc{
 }
 .nbs-flexisel-item{
 	position:relative;
+}
+.viewItemHeader {
+	background: #eee;
+	font-size: 24px;
+	text-align: center;
+}
+.viewItemCon {
+	width: 80%;
+	margin: auto;
+}
+.ring li {
+	text-align: center;
 }
 li.nbs-flexisel-item:hover {
   border: 1px solid #eee;
@@ -1020,7 +1064,7 @@ font-size: 0.8em;
     padding-right: 3em;
 }
 .form-control:focus{
-	border-color:#ccc!important;
+	border-color:#eee!important;
    outline: 0!important;
    webkit-box-shadow:none;
   box-shadow: none;
@@ -1849,7 +1893,7 @@ a.cpns:hover{
 	outline: none;
 }
 .cmts-main-left img{
-	border: 3px solid#ccc;
+	border: 3px solid #eee;
 }
 .cmnts-right a:hover{
 	background: #333;
@@ -1894,6 +1938,17 @@ a.cpns:hover{
 	padding:0;
 }
 /*--responsive--*/
+@media (min-width: 980px){
+	.top-nav {
+		font-size: 24px;
+		background-color: #eee;
+	    opacity: 0.9;
+	    box-shadow: 0px 0px 17px 0px;
+	}
+	.top-nav:hover {
+		opacity: 1;
+	}
+}
 @media (max-width: 1440px){
 }
 @media (max-width: 1366px){
@@ -2016,6 +2071,24 @@ figure.effect-bubba p {
 }
 .nbs-flexisel-nav-right {
   right: -21px;
+}
+.ui-datascroller .ui-datascroller-item {
+    width: 100% !important;
+    display: block !important;
+    margin-left: 0px !important;
+    margin-top: 10px;
+}
+ul.memenu {
+	margin-left: 15%;
+}
+ul.memenu.skyblue {
+    margin-left: 35%;
+}
+ul.memenu * {
+    font-size: 24px;
+}
+.ui-datascroller .ui-datascroller-item img {
+	width: 100% !important;
 }
 .banner {
   min-height: 398px;

@@ -55,14 +55,20 @@
 							</div>
 							<div>
 								<label>
-									<p:inputText id="email" value="#{loginBackBean.seller.email}" placeholder="#{msg['emailPlaceHolder']}" type="password" required="true" requiredMessage="#{msg['required']}"/>
-									<p:message for="email"/>
+									<p:inputText id="email" value="#{loginBackBean.seller.email}" placeholder="#{msg['emailPlaceHolder']}" validatorMessage="#{msg['emailValidationMsg']}" required="true" requiredMessage="#{msg['required']}">
+										<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+										<p:ajax process="email" update="emailMSG"/>
+									</p:inputText>
+									<p:message for="email" id="emailMSG"/>
 								</label>
 							</div>
 							<div>
 								<label>
-									<p:inputText id="mobileNum" value="#{loginBackBean.seller.mobileNum}" placeholder="#{msg['mobile']}" type="text" required="true" requiredMessage="#{msg['required']}"/>
-									<p:message for="mobileNum"/>
+									<p:inputText id="mobileNum" value="#{loginBackBean.seller.mobileNum}" validatorMessage="#{msg['mobileValidationMsg']}" placeholder="#{msg['mobile']}" type="text" required="true" requiredMessage="#{msg['required']}">
+										<f:validateLength minimum="10" maximum="15"/>
+										<p:ajax process="mobileNum" update="mobileNumMSG"/>
+									</p:inputText>
+									<p:message for="mobileNum" id="mobileNumMSG"/>
 								</label>
 							</div>					
 							<div>
@@ -83,6 +89,19 @@
 									<p:message for="storeName"/>
 								</label>
 							</div>
+							<div>
+								<label>
+									<p:calendar id="openTime" placeholder="#{msg['openTime']}" required="true" requiredMessage="#{msg['required']}" value="#{loginBackBean.seller.store.openTime}" pattern="HH:mm" timeOnly="true"/>
+									<p:message for="openTime"/>
+								</label>
+							</div>
+							<div>
+								<label>
+									<p:calendar id="closeTime" required="true" placeholder="#{msg['closeTime']}" requiredMessage="#{msg['required']}" value="#{loginBackBean.seller.store.closeTime}" pattern="HH:mm" timeOnly="true"/>
+									<p:message for="closeTime"/>
+								</label>
+							</div>
+							
 							<div>
 								<label>
 									 <p:selectOneMenu

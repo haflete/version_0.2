@@ -9,6 +9,7 @@
 
 	<ui:composition template="/WEB-INF/template/template.xhtml">
 		<ui:define name="content">
+			<o:importConstants type="com.smartThings.haflete.entity.enums.UploadedMethod" />
 			<f:event listener="#{loginBackBean.preRenderSellerPages}" type="preRenderView" />
 			<h:outputStylesheet library="css" name="croppie.css"/>
 			<div class="container">
@@ -47,7 +48,7 @@
 								</p:panel>
 							</p:tab>
 							<p:tab id="images" title="#{msg['images']}">
-								<p:dataGrid  var="image" value="#{newPostBackBean.item.mediaList}" columns="3" layout="grid" id="imagesGrid"
+								<p:dataGrid  var="image" value="#{newPostBackBean.item.imagesList}" columns="3" layout="grid" id="imagesGrid"
 									emptyMessage="#{msg['emptyResult']}">
 									<f:facet name="header">
 							            #{msg['uploadedImgsClickToDelete']}
@@ -72,7 +73,7 @@
 								<p:spacer />
 								
 								<p:fileUpload fileUploadListener="#{newPostBackBean.handleFileUpload}" mode="advanced" dragDropSupport="true" uploadLabel="#{msg['uploadBtn']}"
-									  label="#{msg['uploadBtn']}" update="@parent:@parent" sizeLimit="500000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" auto="true" multiple="true"
+									  label="#{msg['uploadBtn']}" update="@parent:@parent" sizeLimit="5000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" auto="true" multiple="true"
 			                          fileLimitMessage="#{msg['fileSizeLimit']}" required="true" invalidFileMessage="#{msg['invalidFile']}" invalidSizeMessage="#{msg['fileSizeLimit']}"/>
 			 					
 			    				<p:growl id="messages" showDetail="true" />
@@ -101,7 +102,7 @@
 								    	
 								    	<div id="demo-basic"></div>
 								    	
-								    	<p:commandButton value="#{msg['crop']}" icon="ui-icon-scissors" onclick="crop(); return false;"/>
+								    	<p:commandButton value="#{msg['crop']}" icon="ui-icon-scissors" onclick="crop(); PF('statusDialog').show(); return false;"/>
 								    	<p:commandButton process="base64" styleClass="cropperBtn hidden" oncomplete="$('.cropActionBtn').click();"/>
 								    	<p:commandButton styleClass="cropActionBtn hidden" action="#{newPostBackBean.crop}" />
 								    	<script>
@@ -112,25 +113,44 @@
 								
 							</p:tab>
 							<p:tab id="videos" title="#{msg['videos']}">
-								<p:dataGrid var="video" value="#{newPostBackBean.item.videosList}" columns="3" layout="grid" 
-									rendered="#{empty newPostBackBean.item.videosList}">
+								<p:dataGrid var="video" value="#{newPostBackBean.item.videosList}" id="videosGrid" columns="3" layout="grid">
 										<f:facet name="header">
 								            #{msg['uploadedVideos']}
 								        </f:facet>
 								        
 								        <p:panel header="#{video.name}" style="text-align:center">
 								            <h:panelGrid columns="1" style="width:100%">
-								                
+								            	<h:panelGroup rendered="#{video.uploadedMethod eq UploadedMethod.URL}">
+								                	<div><iframe src="#{video.url}" height="300" width="300" /></div>
+								                </h:panelGroup>
+								                <h:panelGroup rendered="#{video.uploadedMethod ne UploadedMethod.URL}">
+									                <video id="my-video" class="video-js" controls="true" preload="auto" width="640" height="264"
+												  		poster="#{video.thumbUrl}" data-setup="{}">
+													    <source src="#{video.url}" type='#{video.ext}'/>
+													    <p class="vjs-no-js">
+													      To view this video please enable JavaScript, and consider upgrading to a web browser that
+													      <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+													    </p>
+												  	</video>
+											  	</h:panelGroup>
 								            </h:panelGrid>
 								        </p:panel>
 								</p:dataGrid>
 								
 								<p:fileUpload fileUploadListener="#{newPostBackBean.handleVideoUpload}" mode="advanced" dragDropSupport="true" uploadLabel="#{msg['uploadBtn']}"
 									  label="#{msg['uploadBtn']}" update="@parent:@parent" auto="true" multiple="true"
-									  sizeLimit="500000" allowTypes="/(\.|\/)(webm|mkv|flv|vob|ogv|ogg|drc|avi|mov|qt|wmv|rm|rmvb|amv|mp4|m4p|m4v|mpg|mp2|mpeg|mpe|mpv|mpg|mpeg|svi|m4v|3gp|3g2|nsv)$/"
-			                          fileLimitMessage="#{msg['fileSizeLimit']}" required="true" invalidFileMessage="#{msg['invalidFile']}" invalidSizeMessage="#{msg['fileSizeLimit']}"/>
+									  sizeLimit="50000000" allowTypes="/(\.|\/)(webm|mkv|flv|vob|ogv|ogg|drc|avi|mov|qt|wmv|rm|rmvb|amv|mp4|m4p|m4v|mpg|mp2|mpeg|mpe|mpv|mpg|mpeg|svi|m4v|3gp|3g2|nsv)$/"
+			                          fileLimitMessage="#{msg['fileSizeLimit']}" required="true" invalidFileMessage="#{msg['invalidVideoFile']}" invalidSizeMessage="#{msg['fileSizeLimit']}"/>
+			                    
+			                    <p:inputText value="#{newPostBackBean.uploadVideoUrl}" placeholder="#{msg['uploadVideoUrl']}" id="uploadUrl" />
+			                    
+			                    <p:commandButton action="#{newPostBackBean.uploadVideoViaUrl}" value="#{msg['upload']}" process="@parent" update="videosGrid"/>
+			                   	
 							</p:tab>
 						</p:wizard>
+						<center>
+							<p:commandButton action="#{newPostBackBean.finish}" value="#{msg['finish']}"/>
+						</center>
 					</h:form>
 				</div>
 			</div>

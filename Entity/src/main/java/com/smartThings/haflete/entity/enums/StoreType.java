@@ -1,9 +1,10 @@
 package com.smartThings.haflete.entity.enums;
 
 public enum StoreType {
-	JEWERLY("مجوهرات وذهب", "Jewerly", 1), CARS("سيارات للايجار", "Cars for rent", 2), HANY_MONE("سياحة وسفر", "Hony mone", 3), CARDS("كروت اعراس", "Cards", 4),
-	SALONS("صالونات تجميل", "Salons", 5), DRESSES("فساتين", "Dresses", 6), HALL("قاعات", "Halls", 7);
-	
+	JEWERLY("مجوهرات", "Jewerly", 1), CARS("سيارات", "Cars for rent", 2), HANY_MONE("شهر عسل", "Hony mone", 3), CARDS(
+			"كروت", "Cards", 4), SALONS("صالونات", "Salons",
+					5), DRESSES("فساتين", "Dresses", 6), HALL("قاعات", "Halls", 7), ROSE("ورد وزينة", "Accessories", 8);
+
 	private String arabicName;
 	private String englishName;
 	private int code;
@@ -36,5 +37,15 @@ public enum StoreType {
 
 	public void setCode(int code) {
 		this.code = code;
+	}
+
+	public static StoreType findByEnName(String englishTypeName) {
+		
+		for (StoreType type : StoreType.values()) {
+			if(type.getEnglishName().equals(englishTypeName))
+				return type;
+		}
+		
+		return null;
 	}
 }

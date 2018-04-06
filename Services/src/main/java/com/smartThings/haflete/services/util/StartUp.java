@@ -13,6 +13,8 @@ import com.smartThings.haflete.dao.util.HibernateUtil;
 public class StartUp {
 	
 	public static final String ROOT_PATH = File.listRoots()[0].getAbsolutePath() + "7aflete" + File.separator + "media";
+	public static final String DEFAULT_VIDEO_IMG_PATH = ROOT_PATH + File.separator + "defaults" +  File.separator + "defaultVideo.png";
+	
 	@PostConstruct
 	public void ini() { 
 		try {

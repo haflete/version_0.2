@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.smartThings.haflete.entity.enums.MediaType;
+import com.smartThings.haflete.entity.enums.UploadedMethod;
 import com.smartThings.haflete.entity.util.SuperEntity;
 
 @Entity
@@ -42,6 +43,9 @@ public class ItemMedia extends SuperEntity {
 	@Enumerated(EnumType.STRING)
 	private MediaType type;
 	
+	@Enumerated(EnumType.STRING)
+	private UploadedMethod uploadedMethod;
+	
 	@ManyToOne
 	@JoinColumn(name = "ITEM_ID")
 	private Item item;
@@ -54,7 +58,15 @@ public class ItemMedia extends SuperEntity {
 	
 	@Transient
 	private byte[] contents;
-	
+
+	public UploadedMethod getUploadedMethod() {
+		return uploadedMethod;
+	}
+
+	public void setUploadedMethod(UploadedMethod uploadedMethod) {
+		this.uploadedMethod = uploadedMethod;
+	}
+
 	public String getFullDir() {
 		return fullDir;
 	}

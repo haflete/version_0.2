@@ -120,7 +120,10 @@ public class MediaEJB implements MediaRemote {
 	    
 	    media.setFullDir(fullPath);
 	    media.setUrl(findUrlFromDir(fullPath));
-
+	    
+	    String fileName = media.getName().substring(0, media.getName().lastIndexOf("."));
+	    String thumbFullDir = dirPath + File.separator + fileName + ".jpg";
+	    
 		try {
 			if (Files.notExists(Paths.get(dirPath))) {
 				Files.createDirectories(Paths.get(dirPath));
@@ -130,7 +133,15 @@ public class MediaEJB implements MediaRemote {
 			e.printStackTrace();
 			throw new BusinessException("GENERAL_ERROR");
 		}
-		
+	    
+		try {
+			generateVideoThumb(fullPath, thumbFullDir);
+			media.setThumbUrl(findUrlFromDir(thumbFullDir));
+		} catch (IOException | InterruptedException | Exception e1) {
+			media.setThumbUrl(findUrlFromDir(StartUp.DEFAULT_VIDEO_IMG_PATH));
+			e1.printStackTrace();
+		}
+	    
 		Item item = media.getItem();
 		item.getMediaList().add(media);
 		ItemDAO dao = new ItemDAO();
@@ -139,7 +150,7 @@ public class MediaEJB implements MediaRemote {
 		return media;
 	}
 	
-	public void getThumb(String fullDir, String thumbDir)
+	public void generateVideoThumb(String fullDir, String thumbDir)
 		      throws IOException, InterruptedException, Exception {
 		
 		FFmpegFrameGrabber g = new FFmpegFrameGrabber(fullDir);
@@ -147,11 +158,16 @@ public class MediaEJB implements MediaRemote {
         g.start();
 
         for (int i = 0 ; i < 50 ; i++) {
-            ImageIO.write(g.grab().getBufferedImage(), "png", new File(thumbDir));
+            ImageIO.write(g.grab().getBufferedImage(), "jpg", new File(thumbDir));
         }
 
          g.stop();
     }
+	
+	@Override
+	public String findThumbVideoUrl() {
+		return findUrlFromDir(StartUp.DEFAULT_VIDEO_IMG_PATH);
+	}
 	
 	private String findUrlFromDir(String dirPath) {
 		return (File.separator + "media" + dirPath.replace(StartUp.ROOT_PATH, "")).replace("\\", "/");

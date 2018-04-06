@@ -41,7 +41,7 @@ public class Item extends SuperEntity {
 	@Column
 	private BigDecimal price;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "STORE_ID")
 	private Store store;
 	

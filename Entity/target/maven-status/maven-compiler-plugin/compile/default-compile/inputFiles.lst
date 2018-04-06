@@ -1,10 +1,13 @@
-C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\City.java
 C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\enums\StoreType.java
-C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\enums\MediaType.java
 C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\AddressInfo.java
-C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\Store.java
+C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\searchBeans\ItemSearchCriteria.java
 C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\util\BusinessException.java
-C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\Item.java
 C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\ItemMedia.java
 C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\util\SuperEntity.java
 C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\Seller.java
+C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\City.java
+C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\enums\MediaType.java
+C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\searchBeans\SearchCriteria.java
+C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\Store.java
+C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\Item.java
+C:\Users\wwwne\git\version_0.2\Entity\src\main\java\com\smartThings\haflete\entity\enums\UploadedMethod.java

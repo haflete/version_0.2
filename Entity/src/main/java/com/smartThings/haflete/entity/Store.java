@@ -1,8 +1,10 @@
 package com.smartThings.haflete.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,9 +16,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Where;
 
 import com.smartThings.haflete.entity.enums.StoreType;
 import com.smartThings.haflete.entity.util.SuperEntity;
@@ -24,6 +27,8 @@ import com.smartThings.haflete.entity.util.SuperEntity;
 @Entity
 @Table(name = "Store")
 public class Store extends SuperEntity {
+
+	private static final long serialVersionUID = 5902998514655788619L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -34,7 +39,7 @@ public class Store extends SuperEntity {
 	@Enumerated(EnumType.STRING)
 	private StoreType type;
 	
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "SELLER_ID" )
 	private Seller seller;
 
@@ -42,9 +47,18 @@ public class Store extends SuperEntity {
 	@Cascade(value = { org.hibernate.annotations.CascadeType.ALL })
 	private List<Item> items;
 	
-	@OneToOne(mappedBy="store", fetch=FetchType.LAZY)
+	@OneToOne(mappedBy="store", fetch=FetchType.EAGER)
 	@Cascade(value={org.hibernate.annotations.CascadeType.ALL})
 	private AddressInfo addressInfo;
+	
+	@Column(name = "openTime", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date openTime;
+
+	@Column(name = "closeTime", columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date closeTime;
+
 	
 	public Store() {
 		super();
@@ -98,4 +112,22 @@ public class Store extends SuperEntity {
 	public void setSeller(Seller seller) {
 		this.seller = seller;
 	}
+	
+
+	public Date getOpenTime() {
+		return openTime;
+	}
+
+	public void setOpenTime(Date openTime) {
+		this.openTime = openTime;
+	}
+
+	public Date getCloseTime() {
+		return closeTime;
+	}
+
+	public void setCloseTime(Date closeTime) {
+		this.closeTime = closeTime;
+	}
+
 }

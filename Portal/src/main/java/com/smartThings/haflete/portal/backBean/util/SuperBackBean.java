@@ -20,9 +20,7 @@ public abstract class SuperBackBean implements Serializable {
 	}
 	
 	public void addSuccMsg() {
-		ResourceBundleUtil bundleUtil = new ResourceBundleUtil();
-		String message = bundleUtil.findMsg("operationSuccess");
-		FacesContext.getCurrentInstance().addMessage("globalError", new FacesMessage(FacesMessage.SEVERITY_INFO, "", message));
+		FacesContext.getCurrentInstance().addMessage("globalError", new FacesMessage(FacesMessage.SEVERITY_INFO, "", findBundleMsg("operationSuccess")));
 	}
 	
 	public void redirect(String url) {
@@ -35,8 +33,11 @@ public abstract class SuperBackBean implements Serializable {
 	}
 	
 	public void addErrorMessage(String id, String bundleName) {
+		FacesContext.getCurrentInstance().addMessage(id, new FacesMessage(FacesMessage.SEVERITY_ERROR, "حطأ", findBundleMsg(bundleName)));
+	}
+	
+	public String findBundleMsg(String key) {
 		ResourceBundleUtil bundleUtil = new ResourceBundleUtil();
-		String message = bundleUtil.findMsg(bundleName);
-		FacesContext.getCurrentInstance().addMessage(id, new FacesMessage(FacesMessage.SEVERITY_ERROR, "حطأ", message));
+		return bundleUtil.findMsg(key);
 	}
 }

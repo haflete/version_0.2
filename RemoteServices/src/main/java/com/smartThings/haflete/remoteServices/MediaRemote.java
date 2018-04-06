@@ -14,4 +14,6 @@ public interface MediaRemote {
 	void deleteImage(long id) throws BusinessException;
 
 	ItemMedia createNewVideo(ItemMedia media, Seller loginSeller) throws BusinessException;
+
+	String findThumbVideoUrl();
 }

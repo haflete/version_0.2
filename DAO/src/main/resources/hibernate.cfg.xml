@@ -37,8 +37,7 @@
 		<property name="hibernate.transaction.jta.platform">org.hibernate.service.jta.platform.internal.SunOneJtaPlatform</property>
 		<property name="hibernate.current_session_context_class">org.hibernate.context.internal.JTASessionContext</property>
 		<property name="hibernate.transaction.flush_before_completion">true</property>
-		<property name="hibernate.transaction.release_mode">after_transaction</property>
-		<property name="hibernate.transaction.auto_close_session">true</property>
+		
 
 		<!-- ============================== -->
 		<!-- Miscellanious Properties -->

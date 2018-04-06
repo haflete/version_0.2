@@ -10,10 +10,25 @@
 	<ui:composition template="/WEB-INF/template/template.xhtml">
 		<ui:define name="content">
 			<f:event listener="#{loginBackBean.preRenderSellerPages}" type="preRenderView" />
-			<div class="container">
-				<p:commandLink action="addPost.xhtml?faces-redirect=true">
-					<p:graphicImage library="images" name="upload.png"/>
-				</p:commandLink>
+			
+			<div class="container itemsCon">
+				<p:dataScroller  var="item" value="#{sellerHomeBackBean.items}" lazy="true" id="itemsGrid" chunkSize="10">
+					<f:facet name="header">
+			            #{msg['items']}
+			        </f:facet>
+			        <p:panel header="#{item.name}" style="text-align:center">
+			            <h:panelGrid columns="1" style="width:100%">
+			                <p:link outcome="addPost.xhtml?faces-redirect=true&amp;id=#{item.id}" title="#{msg['edit']}">
+			                	<p:graphicImage url="#{item.frontImgUrl}" width="300px"/>
+			                </p:link>
+			            </h:panelGrid>
+			            <f:facet name="footer">
+				            <h:outputFormat value="#{msg['priceJD']}">
+							   <f:param value="#{item.price}" />
+							</h:outputFormat>
+				        </f:facet>
+			        </p:panel>
+			    </p:dataScroller>
 			</div>
 		</ui:define>
 	</ui:composition>
