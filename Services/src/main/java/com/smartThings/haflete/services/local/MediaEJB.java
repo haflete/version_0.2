@@ -1,6 +1,9 @@
 package com.smartThings.haflete.services.local;
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
@@ -11,6 +14,7 @@ import java.nio.file.Paths;
 
 import javax.ejb.Stateless;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.FrameGrabber.Exception;
@@ -28,7 +32,7 @@ import com.smartThings.haflete.services.util.StartUp;
 public class MediaEJB implements MediaRemote {
 
     private static final int THUMBNAIL_WIDTH = 300;
-    
+    private static final String COPY_RIGHT = "www.laylat3omor.com Copyright @ 2018";
     @Override
 	public void deleteImage(long id) throws BusinessException {
     	MediaDAO dao = new MediaDAO();
@@ -62,6 +66,7 @@ public class MediaEJB implements MediaRemote {
 			}
 			Files.write(Paths.get(fullPath), media.getContents());
 			createThumbnail(fullPath, media.getThumbFullDir(), ext);
+			waterMarkImage(fullPath, ext);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new BusinessException("GENERAL_ERROR");
@@ -73,6 +78,36 @@ public class MediaEJB implements MediaRemote {
 		dao.saveOrUpdate(item);
 		
 		return media;
+	}
+
+	private void waterMarkImage(String fullPath, String ext) {
+		 ImageIcon icon = new ImageIcon(fullPath);
+		 
+         // create BufferedImage object of same width and height as of original image
+         BufferedImage bufferedImage = new BufferedImage(icon.getIconWidth(),
+                     icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
+
+         // create graphics object and add original image to it
+         Graphics graphics = bufferedImage.getGraphics();
+         graphics.drawImage(icon.getImage(), 0, 0, null);
+
+         // set font for the watermark text
+         graphics.setFont(new Font("Arial", Font.BOLD, 30));
+         graphics.setColor(new Color(0, 0, 0));
+         
+         //unicode characters for (c) is \u00a9
+         String watermark = "\u00a9 http://laylat3omor.com";
+
+         // add the watermark text
+         graphics.drawString(watermark, 0, icon.getIconHeight() - 20);
+         graphics.dispose();
+
+         File newFile = new File(fullPath);
+         try {
+               ImageIO.write(bufferedImage, ext, newFile);
+         } catch (IOException e) {
+               e.printStackTrace();
+         }
 	}
 
 	private void createThumbnail(String fullPath, String thumbFullPath, String ext) throws IOException {

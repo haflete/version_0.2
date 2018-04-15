@@ -5,6 +5,7 @@
 	version="3.1">
 	<display-name>Portal</display-name>
 	<welcome-file-list>
+		<welcome-file>pages/home.xhtml</welcome-file>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
@@ -53,24 +54,24 @@
 	<ejb-ref>
 		<ejb-ref-name>ejb/CityEJB</ejb-ref-name>
 		<remote>com.smartThings.haflete.remoteServices.CityRemote</remote>
-		<mapped-name>corbaname:iiop:localhostIP:3700#ejb/CityEJB</mapped-name>
+		<mapped-name>corbaname:iiop:localhost:3700#ejb/CityEJB</mapped-name>
 	</ejb-ref>
 
 	<ejb-ref>
 		<ejb-ref-name>ejb/SellerEJB</ejb-ref-name>
 		<remote>com.smartThings.haflete.remoteServices.SellerRemote</remote>
-		<mapped-name>corbaname:iiop:localhostIP:3700#ejb/SellerEJB</mapped-name>
+		<mapped-name>corbaname:iiop:localhost:3700#ejb/SellerEJB</mapped-name>
 	</ejb-ref>
 	
 	<ejb-ref>
 		<ejb-ref-name>ejb/MediaEJB</ejb-ref-name>
 		<remote>com.smartThings.haflete.remoteServices.MediaRemote</remote>
-		<mapped-name>corbaname:iiop:localhostIP:3700#ejb/MediaEJB</mapped-name>
+		<mapped-name>corbaname:iiop:localhost:3700#ejb/MediaEJB</mapped-name>
 	</ejb-ref>
 	
 	<ejb-ref>
 		<ejb-ref-name>ejb/ItemEJB</ejb-ref-name>
 		<remote>com.smartThings.haflete.remoteServices.ItemRemote</remote>
-		<mapped-name>corbaname:iiop:localhostIP:3700#ejb/ItemEJB</mapped-name>
+		<mapped-name>corbaname:iiop:localhost:3700#ejb/ItemEJB</mapped-name>
 	</ejb-ref>
 </web-app>

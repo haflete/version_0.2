@@ -151,6 +151,10 @@ public class NewPostBackBean extends SuperBackBean {
 		media.setItem(item);
 		media.setType(MediaType.VIDEO);
 		media.setUploadedMethod(UploadedMethod.URL);
+		
+		if(uploadVideoUrl.contains("https://m."))
+			uploadVideoUrl = uploadVideoUrl.replaceAll("https://m.", "https://www.");
+		
 		if(uploadVideoUrl.contains("watch?v="))
 			uploadVideoUrl = uploadVideoUrl.replace("watch?v=", "embed/");
 		media.setUrl(uploadVideoUrl);

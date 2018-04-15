@@ -3,9 +3,8 @@ package com.smartThings.haflete.portal.backBean;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -23,7 +22,7 @@ import com.smartThings.haflete.portal.util.ServiceLocater;
 import com.smartThings.haflete.remoteServices.ItemRemote;
 
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class ViewItemBackBean extends SuperBackBean {
 
 	private static final long serialVersionUID = 2327748326914130422L;
@@ -63,7 +62,8 @@ public class ViewItemBackBean extends SuperBackBean {
 	}
 	
 	public void onMarkerSelect(OverlaySelectEvent event) {
-		redirect("http://maps.google.com/maps?q=" + mapCoords);
+		System.out.println(event);
+		redirect("http://maps.google.com/maps?q=" + event);
     }
 	
 	public ItemMedia getSelectedMedia() {

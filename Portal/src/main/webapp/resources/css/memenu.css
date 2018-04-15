@@ -1,8 +1,22 @@
 .memenu
 {margin:0;padding:0;width:100%;list-style:none;display:inline-block;position:relative;font-family:Calibri,Arial;font-size:15px}
-.memenu li{display:inline-block;text-align:left;}
-ul.memenu.skyblue {text-align: center;}
-.memenu>li>a{  font-family: 'JosefinSans-Regular';float:left;padding: 5px 25px 5px 25px;color:#caccce;font-weight:600;text-decoration:none;text-transform:uppercase;transition:color .4s ease-in-out;-moz-transition:color .4s ease-in-out;-webkit-transition:color .4s ease-in-out;-o-transition:color .4s ease-in-out}
+.memenu li{display:inline-block;}
+ul.memenu.skyblue {text-align: center; line-height: 12px;}
+.memenu>li.active {
+	background: #e63358;
+}
+.memenu>li>a {
+	font-family: 'JosefinSans-Regular';
+	color: #fff;
+	font-weight: 600;
+	text-decoration: none;
+	text-transform: uppercase;
+	transition: color .4s ease-in-out;
+	-moz-transition: color .4s ease-in-out;
+	-webkit-transition: color .4s ease-in-out;
+	-o-transition: color .4s ease-in-out
+}
+
 .memenu>li>.mepanel {
 	position: absolute;
 	display: none;
@@ -36,7 +50,7 @@ ul.memenu.skyblue {text-align: center;}
 	color:#ff5d56;
 }
 .me-one h4{
-	color:#00a0dc;
+	color:#000;
 	font-size:1.3em;
 	font-weight:600;
 	text-align:left;
@@ -57,13 +71,26 @@ ul.memenu.skyblue {text-align: center;}
 .mepanel .row .col4{width:65.95744680851064%}
 .mepanel .row .col5{width:82.97872340425532%}
 .mepanel .row .col6{width:100%}
-.memenu>li.showhide{display:none;width:100%;height:50px;cursor:pointer;color:#555;border-bottom:solid 1px rgba(0,0,0,0.1);background:#00a0dc;}
+.memenu>li.showhide{display:none;width:100%;height:50px;cursor:pointer;color:#555;border-bottom:solid 1px rgba(0,0,0,0.1);background:#000;}
 .memenu>li.showhide span.title{margin:15px 0 0 25px;float:left}.memenu>li.showhide span.icon1:after{position:absolute;content:"";right:25px;top:15px;height:3px;width:25px;font-size:50px;border-top:3px solid #fff;border-bottom:3px solid #fff;z-index:1}
 .memenu>li.showhide span.icon2:after{position:absolute;content:"";right:25px;top:27px;height:3px;width:25px;font-size:50px;border-top:3px solid #fff;border-bottom:3px solid #fff;z-index:1}	
-.skyblue li>a,.skyblue>li.showhide span{color:#caccce}
-.skyblue>li:hover>a,.skyblue>li.active>a,.skyblue .dropdown li:hover>a{color:#00a0dc}.
+.skyblue li>a,.skyblue>li.showhide span{color:#fff}
+.skyblue>li:hover>a,.skyblue>li.active>a,.skyblue .dropdown li:hover>a{color:#fff}.
 skyblue .mepanel img:hover,.skyblue form.contact input[type="text"]:focus,.skyblue form.contact textarea:focus{border:solid 1px #0194be}
 .skyblue form.contact input[type="submit"]{background:#0194be}
+.mememu li a {
+	display: inline-block;
+    height: 60px;
+    overflow: hidden;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 59px;
+    padding: 0 64px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
 @media (max-width: 1280px){
 .memenu>li>a {
   padding: 0px 25px 0px 25px;
@@ -106,7 +133,7 @@ skyblue .mepanel img:hover,.skyblue form.contact input[type="text"]:focus,.skybl
 	.memenu>li.showhide span.title { margin: 10px 0 0 18px;  float: left; display:none;}
 	.memenu>li.showhide span.icon1:after { top: 10px;right: 46.5%;}
 	.memenu>li.showhide span.icon2:after { top: 22px;right: 46.5%;}
-	.skyblue li>a, .skyblue>li.showhide span { color: #4B4B4B;}
+	.skyblue li>a, .skyblue>li.showhide span { color: #fff;}
 	.me-one h4 { text-align: center;}
 	.memenu>li.showhide span.icon1:after { }
 }
@@ -123,11 +150,8 @@ skyblue .mepanel img:hover,.skyblue form.contact input[type="text"]:focus,.skybl
   margin: 0;
 }
 .memenu>li{text-align:left;}
-.memenu>li>a, .memenu>li.active>a {
-  padding: 12px 0px;
-}
 .memenu>li:hover>a, .memenu>li.active>a {
-  padding: 12px 0px;
+  
   text-align:left;
 }
 .memenu>li.showhide span.icon1:after {

@@ -34,9 +34,21 @@
 							<div>
 								<p:commandButton value="#{msg['login']}" action="#{loginBackBean.login()}"/>
 							</div>
-							<div class="forget">
-								<a href="#">#{msg['forgotYourPassword']}</a>
-							</div>
+							
+							<p:commandLink styleClass="forget" value="#{msg['forgotYourPassword']}" />
+							
+							<!-- <p:dialog header="Password Request" widgetVar="dialog" modal="true"
+								height="100" showEffect="explode" hideEffect="bounce">
+								
+								<p:inputText id="email" value="#{sendEmailForgetPassword.email}" placeholder="#{msg['emailPlaceHolder']}" 
+									validatorMessage="#{msg['emailValidationMsg']}" required="true" requiredMessage="#{msg['required']}">
+									
+									<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+									<p:ajax process="email" update="emailMSG"/>
+								</p:inputText>
+								<p:message for="email" id="emailMSG"/>
+								<p:commandButton value="Send" update="growl" action="#{sendEmailForgetPassword.sendEmail()}" />
+							</p:dialog> -->
 						</h:form>
 					 </div>
 				 </div>
@@ -55,7 +67,8 @@
 							</div>
 							<div>
 								<label>
-									<p:inputText id="email" value="#{loginBackBean.seller.email}" placeholder="#{msg['emailPlaceHolder']}" validatorMessage="#{msg['emailValidationMsg']}" required="true" requiredMessage="#{msg['required']}">
+									<p:inputText id="email" value="#{loginBackBean.seller.email}" placeholder="#{msg['emailPlaceHolder']}" 
+										validatorMessage="#{msg['emailValidationMsg']}" required="true" requiredMessage="#{msg['required']}">
 										<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 										<p:ajax process="email" update="emailMSG"/>
 									</p:inputText>

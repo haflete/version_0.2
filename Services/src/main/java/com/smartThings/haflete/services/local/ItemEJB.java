@@ -1,5 +1,9 @@
 package com.smartThings.haflete.services.local;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import com.smartThings.haflete.dao.ItemDAO;
 import com.smartThings.haflete.entity.Item;
@@ -29,9 +35,11 @@ public class ItemEJB implements ItemRemote {
 			throw new BusinessException("fileNameCantBeNull");
 		
 		String dir = createPathForCroppedImg(loginSeller, item);
+		String ext = dir.substring(dir.indexOf(".") + 1);
 		
 		try {
 			Files.write(Paths.get(dir), data);
+			waterMarkImage(dir, ext);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new BusinessException("GENERAL_ERROR");
@@ -40,6 +48,36 @@ public class ItemEJB implements ItemRemote {
 		dao.saveOrUpdate(item);
 		
         return item;
+	}
+	
+	private void waterMarkImage(String fullPath, String ext) {
+		 ImageIcon icon = new ImageIcon(fullPath);
+		 
+        // create BufferedImage object of same width and height as of original image
+        BufferedImage bufferedImage = new BufferedImage(icon.getIconWidth(),
+                    icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
+
+        // create graphics object and add original image to it
+        Graphics graphics = bufferedImage.getGraphics();
+        graphics.drawImage(icon.getImage(), 0, 0, null);
+
+        // set font for the watermark text
+        graphics.setFont(new Font("Arial", Font.BOLD, 30));
+        graphics.setColor(new Color(0, 0, 0));
+        
+        //unicode characters for (c) is \u00a9
+        String watermark = "\u00a9 http://laylat3omor.com";
+
+        // add the watermark text
+        graphics.drawString(watermark, 0, icon.getIconHeight() - 20);
+        graphics.dispose();
+
+        File newFile = new File(fullPath);
+        try {
+              ImageIO.write(bufferedImage, ext, newFile);
+        } catch (IOException e) {
+              e.printStackTrace();
+        }
 	}
 
 	@Override

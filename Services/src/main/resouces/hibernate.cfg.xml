@@ -25,7 +25,7 @@
 		<property name="hibernate.jdbc.fetch_size">30</property>
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="hibernate.connection.datasource">java:app/jdbc/DevDS</property>
-		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.username">nedal</property>
 		<property name="hibernate.connection.password">Nedal785556767</property>
 		<property name="hibernate.default_schema">haflete</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/haflete</property>
@@ -37,8 +37,7 @@
 		<property name="hibernate.transaction.jta.platform">org.hibernate.service.jta.platform.internal.SunOneJtaPlatform</property>
 		<property name="hibernate.current_session_context_class">org.hibernate.context.internal.JTASessionContext</property>
 		<property name="hibernate.transaction.flush_before_completion">true</property>
-		<property name="hibernate.transaction.release_mode">after_transaction</property>
-		<property name="hibernate.transaction.auto_close_session">true</property>
+		
 
 		<!-- ============================== -->
 		<!-- Miscellanious Properties -->

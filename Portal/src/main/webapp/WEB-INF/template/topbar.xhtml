@@ -6,22 +6,20 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	<h:head>
-		<title>#{msg['title']}</title>
+		<title>Laylat 3omor</title>
 
 		<h:outputStylesheet library="css" name="bootstrap.css" />
 		<h:outputStylesheet library="css" name="style.css" />
 		<h:outputStylesheet library="css" name="memenu.css" />
 		<h:outputStylesheet library="css" name="video-js.css" />
+		<h:outputStylesheet library="css" name="w3.css" />
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="keywords"
-			content="Wedding,Wedding Store, حفلة,عرس,مسلتزمات حفلة,قاعات افراح,صالونات تجميل,كروت اعراس ومناسبات,ورد وزينة عرس,ايجار سيارات للافراح,شهر عسل,حفلة زفاف" />
+		<meta name="keywords" content="Wedding,Wedding Store, حفلة,عرس,مسلتزمات حفلة,قاعات افراح,صالونات تجميل,كروت اعراس ومناسبات,ورد وزينة عرس,ايجار سيارات للافراح,شهر عسل,حفلة زفاف" />
 
 		<script type="application/x-javascript">
-			
-	 	addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
-	
+	 		addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
 		</script>
 		
 		<h:outputScript library="js" name="simpleCart.min.js" target="body" />
@@ -60,16 +58,28 @@
 					</ul> -->
 					</div>
 					<h:form>
-						<div class="top_left">
-							<ul>
-								<h:panelGroup rendered="#{not loginBackBean.loggedIn}">
-									<li class="top_link"><a href="/pages/RegisterSeller.xhtml?faces-redirect=true" class="simpleCart_empty">#{msg['sellersPart']}</a></li>
-								</h:panelGroup>
-								<h:panelGroup rendered="#{loginBackBean.loggedIn}">
-									<li class="top_link"><h:commandLink action="#{loginBackBean.logout}" styleClass="simpleCart_empty">#{msg['logout']}</h:commandLink></li>
-								</h:panelGroup>
-							</ul>
-						</div>
+						<table style="width:100%;">
+							<tr>
+								<td valign="bottom" class="col1">
+									<a href="/pages/home.xhtml">
+										<p:graphicImage library="images" name="logo.jpg" styleClass="logo"/>
+									</a>	
+								</td>
+								<td class="col2"></td>
+								<td valign="bottom" class="col3">
+									<div class="top_left">
+										<ul>
+											<h:panelGroup rendered="#{not loginBackBean.loggedIn}">
+												<li class="top_link"><a href="/pages/RegisterSeller.xhtml?faces-redirect=true" class="simpleCart_empty">#{msg['sellersPart']}</a></li>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{loginBackBean.loggedIn}">
+												<li class="top_link"><h:commandLink action="#{loginBackBean.logout}" styleClass="simpleCart_empty">#{msg['logout']}</h:commandLink></li>
+											</h:panelGroup>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</table>
 					</h:form>
 					<div class="clearfix"></div>
 				</div>
@@ -77,39 +87,38 @@
 		</div>
 		<div class="header-top">
 			<div class="header-bottom">
-				<div class="container">
-					<div class="logo">
-						<a href="/pages/home.xhtml"><h1>7aflete</h1></a>
-					</div>
-					<h:panelGroup rendered="#{loginBackBean.loggedIn}">
-						<div class="top-nav">
-							<ul class="memenu skyblue">
-								<li class="#{param['page'] eq 'home' ? 'active' : 'grid'}">
-									<a href="/pages/sellerHome.xhtml?page=home&amp;faces-redirect=true">#{msg['sellerHomePage']}</a>
-								</li>
-								<li class="#{param['page'] eq 'addPost' ? 'active' : 'grid'}">
-									<a href="/pages/addPost.xhtml?page=addPost&amp;faces-redirect=true">#{msg['addItemPage']}</a>
-								</li>
-								<li class="grid"><a href="#">#{msg['settings']}</a></li>
-							</ul>
-						</div>
-					</h:panelGroup>
-					<h:panelGroup rendered="#{!loginBackBean.loggedIn}">
-						<div class="top-nav">
-							<ul class="memenu skyblue">
-								<li class="#{param['page'] eq 'all' ? 'active' : 'grid'}">
-									<a href="/pages/home.xhtml?page=all&amp;faces-redirect=true">#{msg['all']}</a>
-								</li>
-								<c:forEach items="#{StoreType}" var="entry">
-								    <li class="#{param['page'] eq entry.value.englishName ? 'active' : 'grid'}">
-										<a href="/pages/home.xhtml?page=#{entry.value.englishName}&amp;faces-redirect=true">#{entry.value.arabicName}</a>
+				<div class="preCon">
+					<div class="container">
+						<h:panelGroup rendered="#{loginBackBean.loggedIn}">
+							<div class="top-nav">
+								<ul class="memenu skyblue">
+									<li class="#{param['page'] eq 'home' ? 'active' : 'grid'}">
+										<a href="/pages/sellerHome.xhtml?page=home&amp;faces-redirect=true">#{msg['sellerHomePage']}</a>
 									</li>
-								</c:forEach>
-							</ul>
-							<div class="clearfix"></div>
-						</div>
-					</h:panelGroup>
-					<!---->
+									<li class="#{param['page'] eq 'addPost' ? 'active' : 'grid'}">
+										<a href="/pages/addPost.xhtml?page=addPost&amp;faces-redirect=true">#{msg['addItemPage']}</a>
+									</li>
+									<li class="grid"><a href="#">#{msg['settings']}</a></li>
+								</ul>
+							</div>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{!loginBackBean.loggedIn}">
+							<div class="top-nav">
+								<ul class="memenu skyblue">
+									<li class="#{param['page'] eq 'all' ? 'active' : 'grid'}">
+										<a href="/pages/home.xhtml?page=all&amp;faces-redirect=true">#{msg['all']}</a>
+									</li>
+									<c:forEach items="#{StoreType}" var="entry">
+									    <li class="#{param['page'] eq entry.value.englishName ? 'active' : 'grid'}">
+											<a href="/pages/home.xhtml?page=#{entry.value.englishName}&amp;faces-redirect=true">#{msg[entry.value.englishName]}</a>
+										</li>
+									</c:forEach>
+								</ul>
+								<div class="clearfix"></div>
+							</div>
+						</h:panelGroup>
+						<!---->
+					</div>
 				</div>
 				<div class="clearfix"></div>
 			</div>

@@ -1,9 +1,9 @@
 package com.smartThings.haflete.entity.enums;
 
 public enum StoreType {
-	JEWERLY("مجوهرات", "Jewerly", 1), CARS("سيارات", "Cars for rent", 2), HANY_MONE("شهر عسل", "Hony mone", 3), CARDS(
+	CARS("سيارات", "Cars", 2), HANY_MONE("شهر عسل", "HonyMone", 3), CARDS(
 			"كروت", "Cards", 4), SALONS("صالونات", "Salons",
-					5), DRESSES("فساتين", "Dresses", 6), HALL("قاعات", "Halls", 7), ROSE("ورد وزينة", "Accessories", 8);
+					5), DRESSES("فساتين", "Dresses", 6), HALL("قاعات", "Halls", 7);
 
 	private String arabicName;
 	private String englishName;
